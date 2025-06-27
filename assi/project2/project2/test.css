@@ -1,0 +1,58 @@
+@media (max-width: 768px) {
+  header {
+    padding: 11px 40px;
+  }
+
+  #menu-icon {
+    display: initial;
+  }
+
+  .sign-up {
+    display: none;
+  }
+
+  .text h1 {
+    font-size: 2.5rem;
+  }
+
+  .home {
+    grid-template-columns: 1fr;
+  }
+
+  .form-container form {
+    position: unset;
+  }
+
+  header .navbar {
+    position: absolute;
+    top: -500px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    transition: 0.2s ease;
+    text-align: left;
+  }
+
+  .navbar a {
+    padding: 1rem;
+    border-left: 2px solid var(--main-color);
+    margin: 1rem;
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+    .header-btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end; /* Align items to the right */
+        flex-grow: 1; /* Allow the buttons to take up remaining space */
+    }
+
+    .header-btn a {
+        margin-left: 10px; /* Add some space between the buttons */
+    }
+}

@@ -1,0 +1,172 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins" sans-serif;
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  position: absolute;
+  max-width: 600px;
+  width: 100%;
+  padding: 10%;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+header {
+  font-size: 28px;
+  font-weight: 600;
+  color: #232836;
+  text-align: center;
+}
+
+form {
+  margin-top: 30px;
+}
+
+.form .field {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 6px;
+}
+
+.field input,
+.field button {
+  height: 100%;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 6px;
+}
+
+.field input {
+  outline: none;
+  padding: 0 15px;
+  border: 1px solid #cacaca;
+}
+
+.field input :focus {
+  border-bottom-width: 2px;
+}
+
+.field button {
+  color: #fff;
+  background-color: #fe5b3d;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.field button:hover {
+  background-color: #fe5b3d;
+}
+
+.eye-icon {
+  font-size: 18px;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #8b8b8b;
+  position: absolute;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.form-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.form-link span,
+.form-link a {
+  font-size: 14px;
+  font-weight: 400;
+  color: #232836;
+}
+
+.form a {
+  color: #0171d3;
+  text-decoration: none;
+}
+
+.form-content a:hover {
+  text-decoration: underline;
+}
+
+body {
+  background-image: url("./img/abstract-design-background-smooth-flowing-lines.jpg");
+  background-size: cover;
+}
+
+/*
+.line {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    margin: 36px 0;
+    background-color: #fe5b3d;
+}
+
+.line::before {
+    content: 'Or';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    color: #232836;
+    padding: 0 15px;
+}
+
+.media-option a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+a.facebook {
+    background-color: #0171d3;
+    color: #fff;
+
+}
+
+a.facebook .facebook-icon {
+    height: 28px;
+    width: 28px;
+    color: #4267b2;
+    background-color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.facebook-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+}
+
+*/
+
+@media screen and (max-width: 400px) {
+  .form {
+    padding: 15px 10px;
+  }
+}

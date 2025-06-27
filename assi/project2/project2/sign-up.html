@@ -1,0 +1,115 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign-up </title>
+
+    <!-- link to the css -->
+    <link rel="stylesheet" href="login.css">
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+
+<body>
+    <section class="container forms">
+        <div class="form Sign Up">
+            <div class="form-content">
+                <header>Sign Up</header>
+
+
+                <form action="./index.html">
+                    <div class="field input-field">
+                        <input type="text" placeholder="Full Name" class="input" required>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="email" placeholder="Email" class="input" required>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Password" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Password" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
+                    </div>
+
+
+
+                    <div class="field button-field">
+                        <button>Sign Up</button>
+                    </div>
+
+                </form>
+
+                <div class="form-link">
+                    <span>Already have an account? <a href="./sign-in.html" class="link signin link">Sign In</a></span>
+                    <span>Or Go <a href="./index.html" class="link signin link">Home</a></span>
+
+                </div>
+
+            </div>
+
+    </section>
+
+
+
+
+    <script>
+        function validateLogin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Example validation (replace with your actual validation logic)
+            if (email === "admin@example.com" && password === "secret") {
+                window.location.replace("dashboard.html"); // Redirect to the dashboard
+            } else {
+                alert("Invalid credentials. Please try again.");
+            }
+        }
+    </script>
+
+
+    <script>
+        const forms = document.querySelector(".forms"),
+            pwShowHide = document.querySelectorAll(".eye-icon"),
+            links = document.querySelectorAll(".link");
+
+
+        pwShowHide.forEach(eyeIcon => {
+            eyeIcon.addEventListener("click", () => {
+                let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+                pwFields.forEach(password => {
+                    if (password.type === "password") {
+                        password.type = "text";
+                        eyeIcon.classList.replace("bx-hide", "bx-show");
+                        return;
+                    }
+                    password.type = "password"
+                    eyeIcon.classList.replace("bx-show", "bx-hide");
+                })
+            })
+        })
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+</body>
+
+
+</html>
