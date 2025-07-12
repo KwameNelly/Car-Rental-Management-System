@@ -71,16 +71,17 @@ Car-Rental-Management-System/
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm (Node Package Manager)
+- **Node.js** (v14 or higher) - [Download here](https://nodejs.org/)
+- **npm** (Node Package Manager) - Comes with Node.js
+- **Git** - For cloning the repository
 
-### Installation
+### Installation & Setup
 
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
-   cd Car-Rental-Management-System/assi
+   git clone https://github.com/KwameNelly/Car-Rental-Management-System.git
+   cd Car-Rental-Management-System
    ```
 
 2. **Install dependencies**
@@ -89,24 +90,96 @@ Car-Rental-Management-System/
    npm install
    ```
 
-3. **Start the backend server**
+   This will install:
+   - Express.js v5.1.0 (for the backend server)
+   - Nodemon v3.1.10 (for development auto-restart)
 
-   ```bash
-   node backend/app.js
-   ```
+### 🔥 Running the Project
 
-   Server will run on `http://localhost:3001`
-
-4. **Open the frontend**
-   Open `frontend/pages/index.html` in your web browser or serve it using a local development server.
-
-### Development Mode
-
-For development with auto-restart capability:
+#### Option 1: Development Mode (Recommended)
 
 ```bash
-npx nodemon backend/app.js
+npm run dev
 ```
+
+This command:
+
+- Starts the Express server with nodemon
+- Automatically restarts the server when you make changes
+- Serves the frontend at `http://localhost:3001`
+
+#### Option 2: Production Mode
+
+```bash
+npm start
+```
+
+This command:
+
+- Starts the Express server in production mode
+- Serves the frontend at `http://localhost:3001`
+
+#### Option 3: Manual Server Start
+
+```bash
+node backend/app.js
+```
+
+### 🌐 Accessing the Application
+
+Once the server is running, open your web browser and navigate to:
+
+```url
+http://localhost:3001
+```
+
+You should see the Car Rental homepage with:
+
+- ✅ Proper CSS styling
+- ✅ Working navigation
+- ✅ Images loading correctly
+- ✅ Interactive elements
+
+### 🛠️ Development Workflow
+
+1. **Start the development server**:
+
+   ```bash
+   npm run dev
+   ```
+
+2. **Make your changes** to any file in the project
+
+3. **The server will automatically restart** (thanks to nodemon)
+
+4. **Refresh your browser** to see the changes
+
+### 📝 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start the server in production mode |
+| `npm run dev` | Start the server in development mode with auto-restart |
+| `npm test` | Run tests (not configured yet) |
+
+### 🔧 Troubleshooting
+
+#### Server won't start?
+
+- Check if port 3001 is already in use
+- Make sure you've run `npm install`
+- Verify Node.js is installed: `node --version`
+
+#### CSS not loading?
+
+- Ensure the server is running
+- Check that all file paths use `../` for relative navigation
+- Verify the server is serving from `http://localhost:3001`
+
+#### Images not showing?
+
+- Confirm images are in the `frontend/img/` directory
+- Check that image paths in HTML use `../img/` prefix
 
 ## 📋 Available Pages
 
@@ -154,8 +227,7 @@ The frontend can be deployed to any static hosting service:
 
 - Netlify
 - Vercel
-- GitHub Pages
-- AWS S3
+
 
 ### Backend Deployment
 
