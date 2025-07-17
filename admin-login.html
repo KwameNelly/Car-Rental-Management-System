@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Login</title>
+
+
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button type="submit">Login</button>
+            <p id="loginError" class="error-msg"></p>
+        </form>
+    </div>
+
+
+
+
+
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .login-container .error-msg {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+    </style>
+
+
+    <script>
+        document.getElementById("loginForm").onsubmit = function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const errorMsg = document.getElementById("loginError");
+
+            // Hardcoded credentials
+            if (email === "admin@gmail.com" && password === "admin123") {
+                sessionStorage.setItem("isAdmin", "true");
+                errorMsg.textContent = ""; // clear previous errors
+                window.location.href = "./admin/admin-dashboard.html"; // ✅ fixed
+            }
+
+        };
+
+    </script>
+
+</body>
+
+</html>
