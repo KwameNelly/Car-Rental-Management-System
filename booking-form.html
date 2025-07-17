@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Booking Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .booking-form {
+            background-color: #fff;
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .mobile-money-details {
+            display: none;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 4px;
+        }
+
+        .booking-summary {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e6ffe6;
+            border: 1px solid #b2d8b2;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="booking-form">
+        <h2>Car Booking Form</h2>
+        <form id="booking-form">
+            <div class="form-group">
+                <label for="car">Select Car</label>
+                <select id="car" name="car" required>
+                    <option value="">-- Select a Car --</option>
+                    <option value="Honda Civic 2018">Honda Civic 2018 - GHC800/day</option>
+                    <option value="Toyota Corolla 2020">Toyota Corolla 2020 - GHC900/day</option>
+                    <option value="Hyundai Elantra 2019">Hyundai Elantra 2019 - GHC750/day</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="pickup-location">Pickup Location</label>
+                <input type="text" id="pickup-location" name="pickup-location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="pickup-date">Pickup Date</label>
+                <input type="date" id="pickup-date" name="pickup-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="return-date">Return Date</label>
+                <input type="date" id="return-date" name="return-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+233..." required>
+            </div>
+
+            <div class="form-group">
+                <label for="license">Upload Driver's License</label>
+                <input type="file" id="license" name="license" accept="image/*,application/pdf" required />
+            </div>
+
+            <div class="form-group">
+                <label for="payment">Payment Method</label>
+                <select id="payment" name="payment" required onchange="toggleMobileMoneyFields()">
+                    <option value="">-- Select Payment Method --</option>
+                    <option value="Mobile Money">Mobile Money</option>
+                    <option value="Card">Credit/Debit Card</option>
+                    <option value="Cash">Cash on Pickup</option>
+                </select>
+            </div>
+
+            <!-- Mobile Money Fields -->
+            <div class="mobile-money-details" id="mobile-money-details">
+                <div class="form-group">
+                    <label for="network">Mobile Network</label>
+                    <select id="network" name="network">
+                        <option value="">-- Select Network --</option>
+                        <option value="MTN">MTN</option>
+                        <option value="Vodafone">Vodafone</option>
+                        <option value="AirtelTigo">AirtelTigo</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mm-number">Mobile Money Number</label>
+                    <input type="tel" id="mm-number" name="mm-number" placeholder="e.g. 0244123456" />
+                    <div class="error" id="mm-error"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Confirm Booking</button>
+        </form>
+
+        <div class="booking-summary" id="booking-summary" style="display: none;"></div>
+    </div>
+
+    <script>
+        function toggleMobileMoneyFields() {
+            const payment = document.getElementById("payment").value;
+            const mmFields = document.getElementById("mobile-money-details");
+            const required = payment === "Mobile Money";
+
+            mmFields.style.display = required ? "block" : "none";
+            document.getElementById("network").required = required;
+            document.getElementById("mm-number").required = required;
+        }
+
+        document.getElementById("booking-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const payment = document.getElementById("payment").value;
+            const network = document.getElementById("network").value;
+            const mmNumber = document.getElementById("mm-number").value.trim();
+            const mmError = document.getElementById("mm-error");
+            mmError.textContent = "";
+
+            // Validate Mobile Money input if selected
+            if (payment === "Mobile Money") {
+                const networkPrefixes = {
+                    "MTN": ["024", "025", "054", "055", "059"],
+                    "Vodafone": ["020", "050"],
+                    "AirtelTigo": ["027", "057", "026", "056"]
+                };
+
+                const prefix = mmNumber.slice(0, 3);
+                if (!networkPrefixes[network]?.includes(prefix)) {
+                    mmError.textContent = `Number prefix does not match selected network (${network}).`;
+                    return;
+                }
+
+                if (mmNumber.length !== 10) {
+                    mmError.textContent = "Mobile money number must be 10 digits.";
+                    return;
+                }
+            }
+
+            const summary = document.getElementById("booking-summary");
+            const details = {
+                car: document.getElementById("car").value,
+                location: document.getElementById("pickup-location").value,
+                pickupDate: document.getElementById("pickup-date").value,
+                returnDate: document.getElementById("return-date").value,
+                name: document.getElementById("name").value,
+                phone: document.getElementById("phone").value,
+                payment: payment,
+                network: network,
+                mmNumber: mmNumber
+            };
+
+            summary.innerHTML = `
+        <h3>Booking Summary</h3>
+        <p><strong>Car:</strong> ${details.car}</p>
+        <p><strong>Pickup Location:</strong> ${details.location}</p>
+        <p><strong>Pickup Date:</strong> ${details.pickupDate}</p>
+        <p><strong>Return Date:</strong> ${details.returnDate}</p>
+        <p><strong>Name:</strong> ${details.name}</p>
+        <p><strong>Phone:</strong> ${details.phone}</p>
+        <p><strong>Payment Method:</strong> ${details.payment}</p>
+        ${details.payment === "Mobile Money"
+                    ? `<p><strong>Network:</strong> ${details.network}</p>
+               <p><strong>Mobile Money Number:</strong> ${details.mmNumber}</p>`
+                    : ""
+                }
+        <p style="color: green;"><strong>Status:</strong> ✅ Booking Submitted Successfully</p>
+      `;
+            summary.style.display = "block";
+        });
+    </script>
+
+
+</body>
+
+</html>
