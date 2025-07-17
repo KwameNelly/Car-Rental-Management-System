@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Rental Admin Dashboard</title>
+    <link rel="stylesheet"
+        href="C:\Users\Nelson\OneDrive\Documents\GitHub\Car-Rental-Management-System\assi\project2\project2\admin\admin.css" />
+
+
+
+</head>
+
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Cars</a></li>
+                <li><a href="#">Bookings</a></li>
+                <li><a href="#">Customers</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Dashboard</h1>
+                <span class="admin-name">Welcome, Admin</span>
+            </header>
+
+            <!-- Overview Cards -->
+            <section class="cards">
+                <div class="card">
+                    <h3>Total Cars</h3>
+                    <p id="totalCars">0</p>
+                </div>
+                <div class="card">
+                    <h3>Total Bookings</h3>
+                    <p id="totalBookings">0</p>
+                </div>
+                <div class="card">
+                    <h3>Customers</h3>
+                    <p id="totalCustomers">0</p>
+                </div>
+                <div class="card">
+                    <h3>Available Cars</h3>
+                    <p id="availableCars">0</p>
+                </div>
+            </section>
+
+            <!-- Car Management -->
+            <section class="car-management">
+                <div class="car-header">
+                    <h2>Manage Cars</h2>
+                    <button id="addCarBtn">+ Add Car</button>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Status</th>
+                            <th>Price (GHS)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="carTableBody"></tbody>
+                </table>
+            </section>
+
+            <!-- Booking Management -->
+            <section class="booking-management">
+                <div class="booking-header">
+                    <h2>Manage Bookings</h2>
+                    <button id="addBookingBtn">+ Add Booking</button>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Car</th>
+                            <th>Booking Date</th>
+                            <th>Return Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingTableBody"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <!-- Car Modal -->
+    <div class="modal" id="carModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Add Car</h3>
+            <form id="carForm">
+                <input type="hidden" id="carIndex" />
+                <div><input type="text" id="carName" placeholder="Car Name" required /></div>
+                <div><input type="text" id="carBrand" placeholder="Brand" required /></div>
+                <div>
+                    <select id="carStatus" required>
+                        <option value="Available">Available</option>
+                        <option value="Booked">Booked</option>
+                    </select>
+                </div>
+                <div><input type="number" id="carPrice" placeholder="Price (GHS)" required /></div>
+                <div class="form-buttons">
+                    <button type="submit">Save</button>
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <h3 id="bookingModalTitle">Add Booking</h3>
+            <form id="bookingForm">
+                <input type="hidden" id="bookingIndex" />
+                <div><input type="text" id="customerName" placeholder="Customer Name" required /></div>
+                <div>
+                    <select id="carBooked" required></select>
+                </div>
+                <div><input type="date" id="bookingDate" required /></div>
+                <div><input type="date" id="returnDate" required /></div>
+                <div>
+                    <select id="bookingStatus" required>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Returned">Returned</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit">Save</button>
+                    <button type="button" id="cancelBookingBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>
