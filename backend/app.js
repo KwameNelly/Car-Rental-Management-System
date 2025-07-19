@@ -17,6 +17,16 @@ app.get('/pages/:page', (req, res) => {
   res.sendFile(filePath);
 });
 
+// Route for booking form
+app.get('/booking', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/pages/booking-form.html'));
+});
+
+// Route for admin login
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/pages/admin-login.html'));
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
