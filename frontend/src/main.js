@@ -53,3 +53,43 @@ pwShowHide.forEach(eyeIcon => {
         })
     })
 })
+
+
+// request from the api 
+
+
+import { getAllCars } from '../api/carApi.js';
+import { createRental } from '../api/rentalApi.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const cars = await getAllCars();
+
+    const carList = document.getElementById('carList');
+    carList.innerHTML = '';
+
+    cars.forEach(car => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+      <h4>${car.make} ${car.model}</h4>
+      <p>Year: ${car.year}</p>
+      <p>Status: ${car.status}</p>
+      ${car.status === 'available' ? `<button data-id="${car._id}">Rent</button>` : '<em>Not available</em>'}
+    `;
+        carList.appendChild(div);
+    });
+
+    carList.addEventListener('click', async (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            const carId = e.target.getAttribute('data-id');
+            const rentalData = {
+                userId: 'demo-user-id',
+                carId,
+                startDate: '2025-08-01',
+                endDate: '2025-08-05'
+            };
+            const response = await createRental(rentalData);
+            alert('Car rented!');
+            location.reload();
+        }
+    });
+});
