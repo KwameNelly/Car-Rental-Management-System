@@ -105,19 +105,25 @@
         <form id="booking-form">
             <!-- Form fields (unchanged) -->
             <div class="form-group">
-                <label for="car">Select Car</label>
+              <!--  <label for="car">Select Car</label>
                 <select id="car" name="car" required>
                     <option value="">-- Select a Car --</option>
                     <option value="Honda Civic 2018">Honda Civic 2018 - GHC800/day</option>
                     <option value="Toyota Corolla 2020">Toyota Corolla 2020 - GHC900/day</option>
                     <option value="Hyundai Elantra 2019">Hyundai Elantra 2019 - GHC750/day</option>
                 </select>
+                -->
+                <label for="car">Enter Car</label>
+                <input type="text" id="car" name="car" placeholder="e.g. Honda Civic 2018" required>
+
             </div>
 
+            <!--
             <div class="form-group">
                 <label for="pickup-location">Pickup Location</label>
                 <input type="text" id="pickup-location" name="pickup-location" required>
             </div>
+            -->
 
             <div class="form-group">
                 <label for="pickup-date">Pickup Date</label>
@@ -128,6 +134,12 @@
                 <label for="return-date">Return Date</label>
                 <input type="date" id="return-date" name="return-date" required>
             </div>
+
+            <button type="button" onclick="checkCarAvailability()">Check Availability</button>
+
+            <!-- Availability message -->
+            <p id="availabilityMsg"></p>
+
 
             <div class="form-group">
                 <label for="name">Full Name</label>
@@ -302,3 +314,4 @@
 </body>
 
 </html>
+
