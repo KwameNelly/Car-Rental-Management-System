@@ -22,7 +22,6 @@ router.get('/user/:userId', RentalController.getRentalsByUserId);
 // GET /api/rentals/:id - Get rental by ID
 router.get('/:id', RentalController.getRentalById);
 
-// POST /api/rentals - Create new rental
 router.post('/', RentalController.createRental);
 
 // PATCH /api/rentals/:id/status - Update rental status

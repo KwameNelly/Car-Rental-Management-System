@@ -4,7 +4,6 @@ const router = express.Router();
 
 // Car Routes
 
-// GET /api/cars - Get all cars
 router.get('/', CarController.getAllCars);
 
 // GET /api/cars/available - Get all available cars
@@ -19,7 +18,6 @@ router.get('/category/:category', CarController.getCarsByCategory);
 // GET /api/cars/:id - Get car by ID
 router.get('/:id', CarController.getCarById);
 
-// POST /api/cars - Create new car (Admin only)
 router.post('/', CarController.createCar);
 
 // PUT /api/cars/:id - Update car (Admin only)
