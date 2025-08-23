@@ -4,16 +4,13 @@ const router = express.Router();
 
 // User Routes
 
-// GET /api/users - Get all users (Admin only)
 router.get('/', UserController.getAllUsers);
 
 // GET /api/users/:id - Get user by ID
 router.get('/:id', UserController.getUserById);
 
-// POST /api/users/register - Register new user
 router.post('/register', UserController.registerUser);
 
-// POST /api/users/login - User login
 router.post('/login', UserController.loginUser);
 
 // POST /api/users/admin/login - Admin login

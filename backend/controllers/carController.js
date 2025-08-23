@@ -5,8 +5,38 @@ const { CarModel } = require('../model');
  */
 class CarController {
   /**
-   * Get all cars
-   * GET /api/cars
+   * @swagger
+   * /api/cars:
+   *   get:
+   *     summary: Get all cars
+   *     tags: [Cars]
+   *     responses:
+   *       200:
+   *         description: List of all cars
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Cars fetched successfully
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/Car'
+   *                 count:
+   *                   type: integer
+   *                   example: 10
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static getAllCars(req, res) {
     CarModel.getAll((err, cars) => {
@@ -28,8 +58,38 @@ class CarController {
   }
 
   /**
-   * Get all available cars
-   * GET /api/cars/available
+   * @swagger
+   * /api/cars/available:
+   *   get:
+   *     summary: Get all available cars
+   *     tags: [Cars]
+   *     responses:
+   *       200:
+   *         description: List of available cars
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Available cars fetched successfully
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/Car'
+   *                 count:
+   *                   type: integer
+   *                   example: 5
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static getAvailableCars(req, res) {
     CarModel.getAvailable((err, cars) => {
@@ -51,8 +111,52 @@ class CarController {
   }
 
   /**
-   * Get car by ID
-   * GET /api/cars/:id
+   * @swagger
+   * /api/cars/{id}:
+   *   get:
+   *     summary: Get car by ID
+   *     tags: [Cars]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: Car ID
+   *     responses:
+   *       200:
+   *         description: Car fetched successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Car fetched successfully
+   *                 data:
+   *                   $ref: '#/components/schemas/Car'
+   *       400:
+   *         description: Bad request - invalid car ID
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       404:
+   *         description: Car not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static getCarById(req, res) {
     const carId = req.params.id;
@@ -89,8 +193,51 @@ class CarController {
   }
 
   /**
-   * Get cars by category
-   * GET /api/cars/category/:category
+   * @swagger
+   * /api/cars/category/{category}:
+   *   get:
+   *     summary: Get cars by category
+   *     tags: [Cars]
+   *     parameters:
+   *       - in: path
+   *         name: category
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Car category (e.g., Sedan, SUV, etc.)
+   *     responses:
+   *       200:
+   *         description: Cars in category fetched successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Cars in category 'Sedan' fetched successfully
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/Car'
+   *                 count:
+   *                   type: integer
+   *                   example: 3
+   *       400:
+   *         description: Bad request - category is required
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static getCarsByCategory(req, res) {
     const category = req.params.category;
@@ -121,8 +268,51 @@ class CarController {
   }
 
   /**
-   * Search cars
-   * GET /api/cars/search?q=searchTerm
+   * @swagger
+   * /api/cars/search:
+   *   get:
+   *     summary: Search cars
+   *     tags: [Cars]
+   *     parameters:
+   *       - in: query
+   *         name: q
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Search term for car make, model, or description
+   *     responses:
+   *       200:
+   *         description: Search results fetched successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Search results for 'Toyota' fetched successfully
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/Car'
+   *                 count:
+   *                   type: integer
+   *                   example: 2
+   *       400:
+   *         description: Bad request - search term is required
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static searchCars(req, res) {
     const searchTerm = req.query.q;
@@ -153,8 +343,122 @@ class CarController {
   }
 
   /**
-   * Create a new car (Admin only)
-   * POST /api/cars
+   * @swagger
+   * /api/cars:
+   *   post:
+   *     summary: Create a new car (Admin only)
+   *     tags: [Cars]
+   *     security:
+   *       - bearerAuth: []
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - make
+   *               - model
+   *               - year
+   *               - category
+   *               - price_per_day
+   *               - license_plate
+   *             properties:
+   *               make:
+   *                 type: string
+   *                 example: Toyota
+   *                 description: Car manufacturer
+   *               model:
+   *                 type: string
+   *                 example: Camry
+   *                 description: Car model
+   *               year:
+   *                 type: integer
+   *                 example: 2023
+   *                 description: Manufacturing year
+   *               category:
+   *                 type: string
+   *                 example: Sedan
+   *                 description: Car category (Sedan, SUV, etc.)
+   *               price_per_day:
+   *                 type: number
+   *                 format: float
+   *                 example: 50.00
+   *                 description: Daily rental price
+   *               license_plate:
+   *                 type: string
+   *                 example: ABC123
+   *                 description: Car license plate number
+   *               image_url:
+   *                 type: string
+   *                 example: https://example.com/car.jpg
+   *                 description: URL to car image
+   *               description:
+   *                 type: string
+   *                 example: Comfortable family sedan
+   *                 description: Car description
+   *               features:
+   *                 type: array
+   *                 items:
+   *                   type: string
+   *                 example: ["GPS", "Bluetooth"]
+   *                 description: List of car features
+   *               fuel_type:
+   *                 type: string
+   *                 example: Gasoline
+   *                 description: Type of fuel
+   *               transmission:
+   *                 type: string
+   *                 example: Automatic
+   *                 description: Transmission type
+   *               seats:
+   *                 type: integer
+   *                 example: 5
+   *                 description: Number of seats
+   *     responses:
+   *       201:
+   *         description: Car created successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Car created successfully
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: integer
+   *                       example: 1
+   *                     make:
+   *                       type: string
+   *                       example: Toyota
+   *                     model:
+   *                       type: string
+   *                       example: Camry
+   *       400:
+   *         description: Bad request - missing required fields
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       409:
+   *         description: Conflict - license plate already exists
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static createCar(req, res) {
     const {
@@ -220,8 +524,106 @@ class CarController {
   }
 
   /**
-   * Update car (Admin only)
-   * PUT /api/cars/:id
+   * @swagger
+   * /api/cars/{id}:
+   *   put:
+   *     summary: Update car (Admin only)
+   *     tags: [Cars]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: Car ID
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               make:
+   *                 type: string
+   *                 example: Toyota
+   *                 description: Car manufacturer
+   *               model:
+   *                 type: string
+   *                 example: Camry
+   *                 description: Car model
+   *               year:
+   *                 type: integer
+   *                 example: 2023
+   *                 description: Manufacturing year
+   *               category:
+   *                 type: string
+   *                 example: Sedan
+   *                 description: Car category
+   *               price_per_day:
+   *                 type: number
+   *                 format: float
+   *                 example: 55.00
+   *                 description: Daily rental price
+   *               image_url:
+   *                 type: string
+   *                 example: https://example.com/car.jpg
+   *                 description: URL to car image
+   *               description:
+   *                 type: string
+   *                 example: Updated car description
+   *                 description: Car description
+   *               features:
+   *                 type: array
+   *                 items:
+   *                   type: string
+   *                 example: ["GPS", "Bluetooth", "Backup Camera"]
+   *                 description: List of car features
+   *               fuel_type:
+   *                 type: string
+   *                 example: Gasoline
+   *                 description: Type of fuel
+   *               transmission:
+   *                 type: string
+   *                 example: Automatic
+   *                 description: Transmission type
+   *               seats:
+   *                 type: integer
+   *                 example: 5
+   *                 description: Number of seats
+   *     responses:
+   *       200:
+   *         description: Car updated successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Car updated successfully
+   *       400:
+   *         description: Bad request - invalid car ID
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       409:
+   *         description: Conflict - license plate already exists
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static updateCar(req, res) {
     const carId = req.params.id;
@@ -272,8 +674,59 @@ class CarController {
   }
 
   /**
-   * Update car availability
-   * PATCH /api/cars/:id/availability
+   * @swagger
+   * /api/cars/{id}/availability:
+   *   patch:
+   *     summary: Update car availability
+   *     tags: [Cars]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: Car ID
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - availability
+   *             properties:
+   *               availability:
+   *                 type: boolean
+   *                 example: true
+   *                 description: Car availability status
+   *     responses:
+   *       200:
+   *         description: Car availability updated successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Car enabled successfully
+   *       400:
+   *         description: Bad request - invalid car ID or availability value
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static updateCarAvailability(req, res) {
     const carId = req.params.id;
@@ -310,8 +763,46 @@ class CarController {
   }
 
   /**
-   * Delete car (Admin only)
-   * DELETE /api/cars/:id
+   * @swagger
+   * /api/cars/{id}:
+   *   delete:
+   *     summary: Delete car (Admin only)
+   *     tags: [Cars]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: Car ID
+   *     responses:
+   *       200:
+   *         description: Car deleted successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Car deleted successfully
+   *       400:
+   *         description: Bad request - invalid car ID or car has existing rentals
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static deleteCar(req, res) {
     const carId = req.params.id;

@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./configs/swagger');
 const app = express();
 
 // Import routes
@@ -13,6 +15,21 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Serve static files from the frontend directory
 app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Swagger Documentation
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
+//   customCss: '.swagger-ui .topbar { display: none }',
+//   customSiteTitle: 'Car Rental API Documentation',
+//   swaggerOptions: {
+//     docExpansion: 'list',
+//     filter: true,
+//     showRequestHeaders: true,
+//     defaultModelsExpandDepth: 3,
+//     defaultModelExpandDepth: 3
+//   }
+// }));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 // API Routes
 app.use('/api/cars', carRoutes);
@@ -60,8 +77,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler for API routes
-app.use('/api/*name', (req, res) => {
+// 404 handler for API routes (exclude Swagger docs)
+app.use('/api/*name', (req, res, next) => {
+  // Skip if it's a Swagger documentation request
+  if (req.path.startsWith('/api-docs')) {
+    return next();
+  }
   res.status(404).json({
     success: false,
     message: 'API endpoint not found'
@@ -77,6 +98,7 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
   console.log(`📊 API endpoints available at http://localhost:${PORT}/api`);
+  console.log(`📚 API Documentation available at http://localhost:${PORT}/api-docs`);
   console.log('🎯 Available API endpoints:');
   console.log('   Cars: /api/cars');
   console.log('   Rentals: /api/rentals');

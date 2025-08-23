@@ -6,8 +6,40 @@ const bcrypt = require('bcrypt');
  */
 class UserController {
   /**
-   * Get all users (Admin only)
-   * GET /api/users
+   * @swagger
+   * /api/users:
+   *   get:
+   *     summary: Get all users (Admin only)
+   *     tags: [Users]
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: List of all users
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Users fetched successfully
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/User'
+   *                 count:
+   *                   type: integer
+   *                   example: 5
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static getAllUsers(req, res) {
     UserModel.getAll((err, users) => {
@@ -29,8 +61,52 @@ class UserController {
   }
 
   /**
-   * Get user by ID
-   * GET /api/users/:id
+   * @swagger
+   * /api/users/{id}:
+   *   get:
+   *     summary: Get user by ID
+   *     tags: [Users]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: User ID
+   *     responses:
+   *       200:
+   *         description: User fetched successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: User fetched successfully
+   *                 data:
+   *                   $ref: '#/components/schemas/User'
+   *       400:
+   *         description: Bad request - invalid user ID
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       404:
+   *         description: User not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static getUserById(req, res) {
     const userId = req.params.id;
@@ -70,8 +146,99 @@ class UserController {
   }
 
   /**
-   * Register a new user
-   * POST /api/users/register
+   * @swagger
+   * /api/users/register:
+   *   post:
+   *     summary: Register a new user
+   *     tags: [Users]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - username
+   *               - email
+   *               - password
+   *               - full_name
+   *             properties:
+   *               username:
+   *                 type: string
+   *                 example: john_doe
+   *                 description: Unique username for the user
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: john@example.com
+   *                 description: User's email address
+   *               password:
+   *                 type: string
+   *                 minLength: 6
+   *                 example: password123
+   *                 description: User's password (minimum 6 characters)
+   *               full_name:
+   *                 type: string
+   *                 example: John Doe
+   *                 description: User's full name
+   *               phone:
+   *                 type: string
+   *                 example: +1234567890
+   *                 description: User's phone number
+   *               license_number:
+   *                 type: string
+   *                 example: DL123456789
+   *                 description: User's driver's license number
+   *     responses:
+   *       201:
+   *         description: User registered successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: User registered successfully
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: integer
+   *                       example: 1
+   *                     username:
+   *                       type: string
+   *                       example: john_doe
+   *                     email:
+   *                       type: string
+   *                       example: john@example.com
+   *                     full_name:
+   *                       type: string
+   *                       example: John Doe
+   *                     role:
+   *                       type: string
+   *                       example: customer
+   *       400:
+   *         description: Bad request - missing required fields
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       409:
+   *         description: Conflict - user already exists
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static async registerUser(req, res) {
     const {
@@ -188,8 +355,67 @@ class UserController {
   }
 
   /**
-   * User login
-   * POST /api/users/login
+   * @swagger
+   * /api/users/login:
+   *   post:
+   *     summary: User login
+   *     tags: [Users]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - password
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: john@example.com
+   *                 description: User's email address
+   *               password:
+   *                 type: string
+   *                 example: password123
+   *                 description: User's password
+   *     responses:
+   *       200:
+   *         description: Login successful
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Login successful
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     user:
+   *                       $ref: '#/components/schemas/User'
+   *       400:
+   *         description: Bad request - missing credentials
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: Unauthorized - invalid credentials
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static loginUser(req, res) {
     const { email, password } = req.body;
@@ -250,8 +476,73 @@ class UserController {
   }
 
   /**
-   * Update user profile
-   * PUT /api/users/:id
+   * @swagger
+   * /api/users/{id}:
+   *   put:
+   *     summary: Update user profile
+   *     tags: [Users]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: User ID
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               username:
+   *                 type: string
+   *                 example: john_doe
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: john@example.com
+   *               full_name:
+   *                 type: string
+   *                 example: John Doe
+   *               phone:
+   *                 type: string
+   *                 example: +1234567890
+   *               license_number:
+   *                 type: string
+   *                 example: DL123456789
+   *     responses:
+   *       200:
+   *         description: User updated successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: User updated successfully
+   *       400:
+   *         description: Bad request - invalid user ID
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       409:
+   *         description: Conflict - username or email already exists
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static updateUser(req, res) {
     const userId = req.params.id;
@@ -304,8 +595,75 @@ class UserController {
   }
 
   /**
-   * Change user password
-   * POST /api/users/:id/change-password
+   * @swagger
+   * /api/users/{id}/change-password:
+   *   post:
+   *     summary: Change user password
+   *     tags: [Users]
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: User ID
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - current_password
+   *               - new_password
+   *             properties:
+   *               current_password:
+   *                 type: string
+   *                 example: oldpassword123
+   *                 description: Current password
+   *               new_password:
+   *                 type: string
+   *                 minLength: 6
+   *                 example: newpassword123
+   *                 description: New password (minimum 6 characters)
+   *     responses:
+   *       200:
+   *         description: Password changed successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Password changed successfully
+   *       400:
+   *         description: Bad request - invalid user ID or missing fields
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: Unauthorized - current password is incorrect
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       404:
+   *         description: User not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static async changePassword(req, res) {
     const userId = req.params.id;
@@ -395,8 +753,67 @@ class UserController {
   }
 
   /**
-   * Admin login (separate endpoint for admin users)
-   * POST /api/users/admin/login
+   * @swagger
+   * /api/users/admin/login:
+   *   post:
+   *     summary: Admin login
+   *     tags: [Users]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - email
+   *               - password
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 format: email
+   *                 example: admin@carrental.com
+   *                 description: Admin email address
+   *               password:
+   *                 type: string
+   *                 example: adminpassword123
+   *                 description: Admin password
+   *     responses:
+   *       200:
+   *         description: Admin login successful
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Admin login successful
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     admin:
+   *                       $ref: '#/components/schemas/User'
+   *       400:
+   *         description: Bad request - missing credentials
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       401:
+   *         description: Unauthorized - invalid admin credentials
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static adminLogin(req, res) {
     const { email, password } = req.body;

@@ -131,8 +131,121 @@ class RentalController {
   }
 
   /**
-   * Create a new rental
-   * POST /api/rentals
+   * @swagger
+   * /api/rentals:
+   *   post:
+   *     summary: Create a new rental
+   *     tags: [Rentals]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - user_id
+   *               - car_id
+   *               - pickup_date
+   *               - return_date
+   *               - pickup_location
+   *             properties:
+   *               user_id:
+   *                 type: integer
+   *                 example: 1
+   *                 description: ID of the user making the rental
+   *               car_id:
+   *                 type: integer
+   *                 example: 1
+   *                 description: ID of the car being rented
+   *               pickup_date:
+   *                 type: string
+   *                 format: date
+   *                 example: "2024-01-15"
+   *                 description: Date when car will be picked up
+   *               return_date:
+   *                 type: string
+   *                 format: date
+   *                 example: "2024-01-20"
+   *                 description: Date when car will be returned
+   *               pickup_location:
+   *                 type: string
+   *                 example: "Airport Terminal 1"
+   *                 description: Location for car pickup
+   *               return_location:
+   *                 type: string
+   *                 example: "Airport Terminal 1"
+   *                 description: Location for car return (defaults to pickup location)
+   *               payment_method:
+   *                 type: string
+   *                 example: "Credit Card"
+   *                 description: Preferred payment method
+   *               notes:
+   *                 type: string
+   *                 example: "Early pickup requested"
+   *                 description: Additional notes for the rental
+   *     responses:
+   *       201:
+   *         description: Rental created successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 success:
+   *                   type: boolean
+   *                   example: true
+   *                 message:
+   *                   type: string
+   *                   example: Rental created successfully
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: integer
+   *                       example: 1
+   *                     user_id:
+   *                       type: integer
+   *                       example: 1
+   *                     car_id:
+   *                       type: integer
+   *                       example: 1
+   *                     total_amount:
+   *                       type: number
+   *                       format: float
+   *                       example: 250.00
+   *                     days:
+   *                       type: integer
+   *                       example: 5
+   *                     car_info:
+   *                       type: object
+   *                       properties:
+   *                         make:
+   *                           type: string
+   *                           example: Toyota
+   *                         model:
+   *                           type: string
+   *                           example: Camry
+   *                         year:
+   *                           type: integer
+   *                           example: 2023
+   *       400:
+   *         description: Bad request - missing required fields or invalid dates
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       409:
+   *         description: Conflict - car not available for selected dates
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Error'
    */
   static createRental(req, res) {
     const {
