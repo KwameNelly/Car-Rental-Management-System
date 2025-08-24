@@ -3,6 +3,7 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./configs/swagger');
 const app = express();
+const cors = require('cors');
 
 // Import routes
 const carRoutes = require('./routes/carRoutes');
@@ -14,6 +15,12 @@ app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Serve static files from the frontend directory
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
+}));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Swagger Documentation
