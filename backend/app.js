@@ -104,7 +104,7 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, '../frontend/pages/404.html'));
 });
 
-const PORT = process.env.PORT || 30001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
   console.log(`📊 API endpoints available at http://localhost:${PORT}/api`);

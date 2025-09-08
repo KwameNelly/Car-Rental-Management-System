@@ -7,6 +7,7 @@
 
     <!-- link to the css -->
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/stylesheet.css">
 
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -15,6 +16,24 @@
 <!-- <body style="background-image: url('./img/abstract-design-background-smooth-flowing-lines.jpg'); background-size: cover;"> -->
 
 <body>
+    <!--Header-->
+    <header>
+        <a href="/" class="logo"><img src="/img/jeep.png" alt="DriveSmart Logo"></a>
+        
+        <div class="bx bx-menu" id="menu-icon"></div>
+        
+        <ul class="navbar">
+            <li><a href="/"> Home </a></li>
+            <li><a href="/pages/services.html"> Fleets </a></li>
+            <li><a href="/pages/about.html"> About </a></li>
+            <li><a href="#reviews"> Reviews </a></li>
+        </ul>
+        
+        <div class="header-btn">
+            <a href="/pages/sign-in.html"><button class="sign-in">Sign In</button></a>
+            <a href="/pages/sign-up.html"><button class="sign-up">Sign Up</button></a>
+        </div>
+    </header>
 
     <section class="container forms">
         <div class="form Sign In">
@@ -22,14 +41,14 @@
                 <header>Login</header>
 
 
-                <form action="/">
+                <form id="loginForm">
 
                     <div class="field input-field">
-                        <input type="email" placeholder="Email" class="input" required>
+                        <input type="email" id="email" placeholder="Email" class="input" required>
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" placeholder="Password" class="password" required>
+                        <input type="password" id="password" placeholder="Password" class="password" required>
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
@@ -59,21 +78,49 @@
 
 
     <script>
-        function validateLogin() {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
 
-            // Example validation (replace with your actual validation logic)
-            if (email === "admin@example.com" && password === "secret") {
-                window.location.replace("dashboard.html"); // Redirect to the dashboard
-            } else {
-                alert("Invalid credentials. Please try again.");
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Store token and user data
+                    localStorage.setItem('userToken', data.data.token);
+                    localStorage.setItem('userData', JSON.stringify(data.data.user));
+                    
+                    // Redirect to home page or dashboard
+                    window.location.href = '/pages/index.html';
+                } else {
+                    alert(data.message || 'Login failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Network error. Please try again.');
             }
+        });
+        
+        function validateLogin() {
+            // This function is now handled by the form submit event above
         }
-    </script>
 
 
-    <script>
+
         const forms = document.querySelector(".forms"),
             pwShowHide = document.querySelectorAll(".eye-icon"),
             links = document.querySelectorAll(".link");
@@ -98,7 +145,12 @@
 
     </script>
 
-</body>
+    <!--Scroll Reveal-->
+    <script src="https://unpkg.com/scrollreveal"></script>
 
+    <!--Link to Js -->
+    <script src="/src/main.js"></script>
+
+</body>
 
 </html>
