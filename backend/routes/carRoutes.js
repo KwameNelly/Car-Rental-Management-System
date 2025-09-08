@@ -1,6 +1,7 @@
 const express = require('express');
 const CarController = require('../controllers/carController');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
+const { uploadSingle } = require('../middleware/upload');
 const router = express.Router();
 
 // Car Routes
@@ -21,10 +22,10 @@ router.get('/category/:category', CarController.getCarsByCategory);
 router.get('/:id', CarController.getCarById);
 
 // POST /api/cars - Create new car (Admin only)
-router.post('/', authenticateToken, requireAdmin, CarController.createCar);
+router.post('/', authenticateToken, requireAdmin, uploadSingle, CarController.createCar);
 
 // PUT /api/cars/:id - Update car (Admin only)
-router.put('/:id', authenticateToken, requireAdmin, CarController.updateCar);
+router.put('/:id', authenticateToken, requireAdmin, uploadSingle, CarController.updateCar);
 
 // PATCH /api/cars/:id/availability - Update car availability (Admin only)
 router.patch('/:id/availability', authenticateToken, requireAdmin, CarController.updateCarAvailability);

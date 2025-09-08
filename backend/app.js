@@ -23,6 +23,9 @@ app.use(cors({
 }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Swagger Documentation
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
 //   customCss: '.swagger-ui .topbar { display: none }',
