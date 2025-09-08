@@ -134,7 +134,7 @@ For questions or issues:
 4. Token expires → User must login again
 ```
 admin email: admin@carrental.com
-admin password: admin@carrental.com
+admin password: adminpassword123
 ### 2. **Request Format**
 ```javascript
 // Include token in Authorization header
