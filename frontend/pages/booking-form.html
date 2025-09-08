@@ -107,10 +107,7 @@
             <div class="form-group">
               <!--  <label for="car">Select Car</label>
                 <select id="car" name="car" required>
-                    <option value="">-- Select a Car --</option>
-                    <option value="Honda Civic 2018">Honda Civic 2018 - GHC800/day</option>
-                    <option value="Toyota Corolla 2020">Toyota Corolla 2020 - GHC900/day</option>
-                    <option value="Hyundai Elantra 2019">Hyundai Elantra 2019 - GHC750/day</option>
+                    <option value="">-- Loading Cars... --</option>
                 </select>
                 -->
                 <label for="car">Enter Car</label>
@@ -216,6 +213,63 @@
     </div>
 
     <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // Load cars from database
+        async function loadCarsFromDatabase() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/cars`);
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    populateCarSelect(data.data);
+                } else {
+                    console.error('Failed to load cars:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading cars:', error);
+            }
+        }
+        
+        // Populate car select dropdown
+        function populateCarSelect(cars) {
+            const carSelect = document.getElementById('car');
+            carSelect.innerHTML = '<option value="">-- Select a Car --</option>';
+            
+            cars.forEach(car => {
+                if (car.availability === 1) { // Only show available cars
+                    const option = document.createElement('option');
+                    option.value = car.id;
+                    option.textContent = `${car.year} ${car.make} ${car.model} - GHS${car.price_per_day}/day`;
+                    carSelect.appendChild(option);
+                }
+            });
+            
+            // Pre-select car if carId is provided in URL
+            preselectCar();
+        }
+        
+        // Get URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // Pre-select car if carId is provided in URL
+        function preselectCar() {
+            const carId = getUrlParameter('carId');
+            if (carId) {
+                const carSelect = document.getElementById('car');
+                carSelect.value = carId;
+            }
+        }
+        
+        // Load cars when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCarsFromDatabase();
+        });
+        
         function toggleMobileMoneyFields() {
             const payment = document.getElementById("payment").value;
             const mmFields = document.getElementById("mobile-money-details");

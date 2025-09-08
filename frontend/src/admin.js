@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:30001/api';
+const API_BASE_URL = 'http://localhost:3001/api';
 let authToken = localStorage.getItem('adminToken');
 let cars = [];
 let bookings = [];

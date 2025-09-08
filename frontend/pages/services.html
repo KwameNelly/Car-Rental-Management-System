@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services</title>
+    <title>Fleets</title>
 
     <!-- link to the css -->
     <link rel="stylesheet" href="/css/stylesheet.css">
@@ -21,7 +21,7 @@
 
         <ul class="navbar">
             <li><a href="/"> Home </a></li>
-            <li><a href="/pages/services.html"> Services </a></li>
+            <li><a href="/pages/services.html"> Fleets </a></li>
             <li><a href="/pages/about.html"> About </a></li>
             <li><a href="#reviews"> Reviews </a></li>
 
@@ -36,10 +36,10 @@
 
     </header>
 
-    <!--Services-->
+    <!--Fleets-->
     <section class="services" id="services">
         <div class="heading">
-            <span> Best services </span>
+            <span> Best fleets </span>
             <h1>Explore our top set of cars <br> from top rated brands </h1>
         </div>
 
@@ -187,6 +187,102 @@
 
         </div>
     </section>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:3001/api';
+        
+        // Load cars from database
+        async function loadCarsFromDatabase() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/cars`);
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    displayCars(data.data);
+                } else {
+                    console.error('Failed to load cars:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading cars:', error);
+                // Keep the static cars as fallback
+            }
+        }
+        
+        // Display cars dynamically
+        function displayCars(cars) {
+            const servicesContainer = document.querySelector('.services-container');
+            servicesContainer.innerHTML = '';
+            
+            cars.forEach(car => {
+                const carBox = document.createElement('div');
+                carBox.className = 'box';
+                
+                const status = car.availability === 1 ? 'Available' : 'Booked';
+                const statusClass = car.availability === 1 ? 'available' : 'booked';
+                
+                carBox.innerHTML = `
+                    <div class="box-img">
+                        <img src="${car.image_url || '/img/car1.jpg'}" alt="${car.make} ${car.model}" onerror="this.src='/img/car1.jpg'">
+                        <div class="status-badge ${statusClass}">${status}</div>
+                    </div>
+                    <p>${car.year}</p>
+                    <h3>${car.year} ${car.make} ${car.model}</h3>
+                    <h2>GHS${car.price_per_day} <span>/ <strong>Day</strong></span></h2>
+                    <div class="car-details">
+                        <small>Category: ${car.category}</small><br>
+                        <small>Fuel: ${car.fuel_type}</small><br>
+                        <small>Transmission: ${car.transmission}</small><br>
+                        <small>Seats: ${car.seats}</small>
+                    </div>
+                    <a href="/pages/booking-form.html?carId=${car.id}" class="btn">Rent Now</a>
+                `;
+                
+                servicesContainer.appendChild(carBox);
+            });
+        }
+        
+        // Load cars when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCarsFromDatabase();
+        });
+    </script>
+    
+    <style>
+        .status-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .status-badge.available {
+            background-color: #2ecc71;
+        }
+        
+        .status-badge.booked {
+            background-color: #e74c3c;
+        }
+        
+        .box-img {
+            position: relative;
+        }
+        
+        .car-details {
+            margin: 10px 0;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .car-details small {
+            display: block;
+            margin: 2px 0;
+        }
+    </style>
 </body>
 
 
