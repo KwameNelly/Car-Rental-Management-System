@@ -117,7 +117,7 @@ header {
   width: 100%;
   min-height: 100vh;
   position: relative;
-  background: url(img/Car\ Website\ –\ 1@2x.png);
+  background: url(../img/CarWebsite1@2x.png);
   background-repeat: no-repeat;
   background-position: center right;
   background-size: cover;
@@ -449,15 +449,20 @@ header {
   .header-btn {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Align items to the right */
-    flex-grow: 1; /* Allow the buttons to take up remaining space */
+    justify-content: flex-end;
+    /* Align items to the right */
+    flex-grow: 1;
+    /* Allow the buttons to take up remaining space */
   }
 
   .header-btn a {
-    margin-left: 10px; /* Add some space between the buttons */
+    margin-left: 10px;
+    /* Add some space between the buttons */
   }
 }
+
 @media (max-width: 768px) {
+
   /* Add this CSS for mobile view */
   header {
     padding: 11px 40px;
@@ -488,7 +493,8 @@ header {
   }
 
   .navbar.active {
-    top: 70px; /* Adjust this value according to your header height */
+    top: 70px;
+    /* Adjust this value according to your header height */
   }
 }
 
