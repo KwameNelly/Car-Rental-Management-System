@@ -48,11 +48,17 @@ class CarController {
         });
       }
 
+      // Enhance cars with full image URLs
+      const enhancedCars = cars.map(car => ({
+        ...car,
+        image_url: car.image_url ? `${req.protocol}://${req.get('host')}${car.image_url}` : null
+      }));
+
       res.json({
         success: true,
         message: 'Cars fetched successfully',
-        data: cars,
-        count: cars.length
+        data: enhancedCars,
+        count: enhancedCars.length
       });
     });
   }
@@ -101,11 +107,17 @@ class CarController {
         });
       }
 
+      // Enhance cars with full image URLs
+      const enhancedCars = cars.map(car => ({
+        ...car,
+        image_url: car.image_url ? `${req.protocol}://${req.get('host')}${car.image_url}` : null
+      }));
+
       res.json({
         success: true,
         message: 'Available cars fetched successfully',
-        data: cars,
-        count: cars.length
+        data: enhancedCars,
+        count: enhancedCars.length
       });
     });
   }
@@ -187,7 +199,10 @@ class CarController {
       res.json({
         success: true,
         message: 'Car fetched successfully',
-        data: car
+        data: {
+          ...car,
+          image_url: car.image_url ? `${req.protocol}://${req.get('host')}${car.image_url}` : null
+        }
       });
     });
   }
@@ -261,7 +276,10 @@ class CarController {
       res.json({
         success: true,
         message: `Cars in category '${category}' fetched successfully`,
-        data: cars,
+        data: cars.map(car => ({
+          ...car,
+          image_url: car.image_url ? `${req.protocol}://${req.get('host')}${car.image_url}` : null
+        })),
         count: cars.length
       });
     });
@@ -336,7 +354,10 @@ class CarController {
       res.json({
         success: true,
         message: `Search results for '${searchTerm}'`,
-        data: cars,
+        data: cars.map(car => ({
+          ...car,
+          image_url: car.image_url ? `${req.protocol}://${req.get('host')}${car.image_url}` : null
+        })),
         count: cars.length
       });
     });
@@ -353,7 +374,7 @@ class CarController {
    *     requestBody:
    *       required: true
    *       content:
-   *         application/json:
+   *         multipart/form-data:
    *           schema:
    *             type: object
    *             required:
@@ -389,20 +410,18 @@ class CarController {
    *                 type: string
    *                 example: ABC123
    *                 description: Car license plate number
-   *               image_url:
+   *               image:
    *                 type: string
-   *                 example: https://example.com/car.jpg
-   *                 description: URL to car image
+   *                 format: binary
+   *                 description: Car image file (jpeg, jpg, png, gif, webp - max 5MB)
    *               description:
    *                 type: string
    *                 example: Comfortable family sedan
    *                 description: Car description
    *               features:
-   *                 type: array
-   *                 items:
-   *                   type: string
-   *                 example: ["GPS", "Bluetooth"]
-   *                 description: List of car features
+   *                 type: string
+   *                 example: '["GPS", "Bluetooth"]'
+   *                 description: JSON string of car features array
    *               fuel_type:
    *                 type: string
    *                 example: Gasoline
@@ -441,6 +460,10 @@ class CarController {
    *                     model:
    *                       type: string
    *                       example: Camry
+   *                     image_url:
+   *                       type: string
+   *                       example: http://localhost:3001/uploads/cars/car-1234567890.jpg
+   *                       description: Full URL to uploaded car image
    *       400:
    *         description: Bad request - missing required fields
    *         content:
@@ -467,7 +490,6 @@ class CarController {
       year,
       category,
       price_per_day,
-      image_url,
       license_plate,
       description,
       features,
@@ -484,6 +506,12 @@ class CarController {
       });
     }
 
+    // Handle uploaded file
+    let image_url = null;
+    if (req.file) {
+      image_url = `/uploads/cars/${req.file.filename}`;
+    }
+
     const carData = {
       make,
       model,
@@ -493,7 +521,7 @@ class CarController {
       image_url,
       license_plate,
       description,
-      features,
+      features: features ? JSON.parse(features) : null,
       fuel_type,
       transmission,
       seats: parseInt(seats) || 5
@@ -518,7 +546,11 @@ class CarController {
       res.status(201).json({
         success: true,
         message: 'Car created successfully',
-        data: { id: carId, ...carData }
+        data: { 
+          id: carId, 
+          ...carData,
+          image_url: image_url ? `${req.protocol}://${req.get('host')}${image_url}` : null
+        }
       });
     });
   }
@@ -541,7 +573,7 @@ class CarController {
    *     requestBody:
    *       required: true
    *       content:
-   *         application/json:
+   *         multipart/form-data:
    *           schema:
    *             type: object
    *             properties:
@@ -566,20 +598,18 @@ class CarController {
    *                 format: float
    *                 example: 55.00
    *                 description: Daily rental price
-   *               image_url:
+   *               image:
    *                 type: string
-   *                 example: https://example.com/car.jpg
-   *                 description: URL to car image
+   *                 format: binary
+   *                 description: New car image file (jpeg, jpg, png, gif, webp - max 5MB)
    *               description:
    *                 type: string
    *                 example: Updated car description
    *                 description: Car description
    *               features:
-   *                 type: array
-   *                 items:
-   *                   type: string
-   *                 example: ["GPS", "Bluetooth", "Backup Camera"]
-   *                 description: List of car features
+   *                 type: string
+   *                 example: '["GPS", "Bluetooth", "Backup Camera"]'
+   *                 description: JSON string of car features array
    *               fuel_type:
    *                 type: string
    *                 example: Gasoline
@@ -606,6 +636,13 @@ class CarController {
    *                 message:
    *                   type: string
    *                   example: Car updated successfully
+   *                 data:
+   *                   type: object
+   *                   properties:
+   *                     image_url:
+   *                       type: string
+   *                       example: http://localhost:3001/uploads/cars/car-1234567890.jpg
+   *                       description: Full URL to updated car image
    *       400:
    *         description: Bad request - invalid car ID
    *         content:
@@ -636,6 +673,11 @@ class CarController {
       });
     }
 
+    // Handle uploaded file
+    if (req.file) {
+      updateData.image_url = `/uploads/cars/${req.file.filename}`;
+    }
+
     // Remove undefined values and convert numeric fields
     const cleanData = {};
     Object.keys(updateData).forEach(key => {
@@ -644,6 +686,8 @@ class CarController {
           cleanData[key] = parseInt(updateData[key]);
         } else if (key === 'price_per_day') {
           cleanData[key] = parseFloat(updateData[key]);
+        } else if (key === 'features') {
+          cleanData[key] = typeof updateData[key] === 'string' ? JSON.parse(updateData[key]) : updateData[key];
         } else {
           cleanData[key] = updateData[key];
         }
@@ -668,7 +712,11 @@ class CarController {
 
       res.json({
         success: true,
-        message: 'Car updated successfully'
+        message: 'Car updated successfully',
+        data: {
+          ...cleanData,
+          image_url: cleanData.image_url ? `${req.protocol}://${req.get('host')}${cleanData.image_url}` : null
+        }
       });
     });
   }

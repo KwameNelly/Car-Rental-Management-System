@@ -54,7 +54,7 @@ const options = {
             year: { type: "integer", example: 2023 },
             category: { type: "string", example: "Sedan" },
             price_per_day: { type: "number", format: "float", example: 50.00 },
-            image_url: { type: "string", example: "https://example.com/car.jpg" },
+            image_url: { type: "string", example: "http://localhost:3001/uploads/cars/car-1234567890.jpg", description: "Full URL to car image" },
             license_plate: { type: "string", example: "ABC123" },
             description: { type: "string", example: "Comfortable family sedan" },
             features: { type: "array", items: { type: "string" }, example: ["GPS", "Bluetooth"] },
