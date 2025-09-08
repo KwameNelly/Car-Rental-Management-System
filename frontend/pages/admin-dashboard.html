@@ -27,7 +27,7 @@
         <main class="main-content">
             <header>
                 <h1>Dashboard</h1>
-                <span class="admin-name">Welcome, Admin</span>
+                <span class="admin-name" id="adminWelcome">Welcome, Admin</span>
             </header>
 
             <!-- Overview Cards -->
@@ -110,6 +110,7 @@
                     </select>
                 </div>
                 <div><input type="number" id="carPrice" placeholder="Price (GHS)" required /></div>
+                <div><input type="file" id="carImage" accept="image/*" /></div>
                 <div class="form-buttons">
                     <button type="submit">Save</button>
                     <button type="button" id="cancelBtn">Cancel</button>

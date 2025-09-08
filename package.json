@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/app.js",
-    "dev": "nodemon backend/app.js"
+    "dev": "nodemon backend/app.js",
+    "frontend": "cd frontend && python3 -m http.server 3000",
+    "frontend-alt": "cd frontend && npx http-server -p 3000"
   },
   "keywords": [],
   "author": "",

@@ -65,22 +65,40 @@
 
 
     <script>
-        document.getElementById("loginForm").onsubmit = function (e) {
+        const API_BASE_URL = 'http://localhost:30001/api';
+        
+        document.getElementById("loginForm").onsubmit = async function (e) {
             e.preventDefault();
 
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
             const errorMsg = document.getElementById("loginError");
 
-            // Hardcoded credentials
-            if (email === "admin@gmail.com" && password === "admin123") {
-                sessionStorage.setItem("isAdmin", "true");
-                errorMsg.textContent = ""; // clear previous errors
-                window.location.href = "/pages/admin-dashboard.html"; // ✅ fixed
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Store token and redirect
+                    localStorage.setItem('adminToken', data.data.token);
+                    localStorage.setItem('adminUser', JSON.stringify(data.data.admin));
+                    errorMsg.textContent = "";
+                    window.location.href = "/pages/admin-dashboard.html";
+                } else {
+                    errorMsg.textContent = data.message || "Login failed";
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMsg.textContent = "Network error. Please try again.";
             }
-
         };
-
     </script>
 
 </body>
