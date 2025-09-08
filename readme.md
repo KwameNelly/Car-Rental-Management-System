@@ -1,89 +1,126 @@
-# Car Rental Website
+# Car Rental Management System
 
-A modern, responsive car rental platform designed to facilitate the rental of cars from various top-rated brands. With a user-friendly interface and robust features, the website provides customers with a seamless experience in browsing, selecting, and renting cars for their transportation needs.
+A comprehensive car rental management system with a modern web interface and RESTful API.
 
-## ✨ Features
+## Features
 
-### 1. Responsive Design
-- Compatible and optimal viewing experience across desktops, tablets, and smartphones
-- Media queries implemented to adjust layout based on screen size
-- Consistent and intuitive user experience across all devices
+- **User Management**: Registration, login, profile management
+- **Car Management**: Add, edit, delete cars with detailed information
+- **Rental System**: Book cars, manage rentals, track payments
+- **Admin Dashboard**: Administrative tools for managing the system
+- **Responsive Design**: Modern, mobile-friendly interface
+- **RESTful API**: Complete backend API for integration
 
-### 2. Navigation
-- Easy exploration of different sections: Home, Ride, Services, About, and Reviews
-- Styled navigation links with hover effects for visual feedback
-- User-friendly menu with smooth transitions
-
-### 3. User Authentication
-- Sign-in and sign-up functionality for account management
-- Secure login experience with email, password, and full name fields
-- Access to additional features like managing bookings and rental history
-
-### 4. Car Rental Services
-- Wide range of cars from top-rated brands (Honda, Toyota, Mercedes, Range Rover, etc.)
-- Detailed car listings with model year, brand, rental price per day
-- High-quality images for visual representation of each vehicle
-
-### 5. Booking Process
-- Streamlined "Rent Now" functionality on each car listing
-- Simple rental date selection and booking confirmation
-- User-friendly booking workflow
-
-### 6. Reviews and Testimonials
-- Customer reviews and testimonials section
-- Visually appealing layout with user avatars and star ratings
-- Builds credibility and authenticity for the service
-
-### 7. Newsletter Subscription
-- Newsletter subscription for updates, promotions, and special offers
-- Prominently displayed subscription form
-- Keeps users informed and engaged
-
-## 🛠️ Technologies Used
-
-- **HTML**: Structuring content and layout of web pages
-- **CSS**: Styling visual elements, colors, fonts, and responsiveness
-- **JavaScript**: Interactive features and functionality (form validation, menu toggling)
-- **Node.js & Express.js**: Backend server and API structure
-
-## 🚀 Getting Started
+## Quick Start
 
 ### Prerequisites
 - Node.js (v14 or higher)
-- npm (Node Package Manager)
+- npm or yarn
 
 ### Installation
+
 1. Clone the repository
-   ```bash
-   git clone https://github.com/KwameNelly/Car-Rental-Management-System.git
-   cd Car-Rental-Management-System
-   ```
+```bash
+git clone <repository-url>
+cd Car-Rental-Management-System
+```
 
 2. Install dependencies
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. Start the development server
-   ```bash
-   npm run dev
-   ```
+3. Start the server
+```bash
+npm start
+# or for development with auto-reload
+npm run dev
+```
 
-4. Open your browser and navigate to `http://localhost:3001`
+4. Access the application
+- **Frontend**: http://localhost:3001
+- **API Documentation**: http://localhost:3001/api-docs
+- **API Base URL**: http://localhost:3001/api
 
-## 📝 Available Scripts
+## API Documentation
 
-| Command | Description |
-|---------|-------------|
-| `npm start` | Start the server in production mode |
-| `npm run dev` | Start the server in development mode with auto-restart |
+This project includes comprehensive **Swagger/OpenAPI documentation** that provides:
 
-## � Future Enhancements
+- Interactive API testing interface
+- Complete endpoint documentation
+- Request/response examples
+- Data model schemas
+- Authentication information
 
-- **Advanced Search Functionality**: Implement search filters by brand, model, year, and price range
-- **User Profiles**: Save preferences, rental history, and payment information
-- **Payment Gateway Integration**: Secure online payments for car rentals
+### Accessing the Documentation
+
+1. Start the server: `npm start`
+2. Open your browser and go to: **http://localhost:3001/api-docs**
+3. Explore and test all API endpoints directly from the browser
+
+### Key API Endpoints
+
+- **Users**: `/api/users` - User management operations
+- **Cars**: `/api/cars` - Car management operations  
+- **Rentals**: `/api/rentals` - Rental management operations
+
+## Project Structure
+
+```
+├── backend/                 # Backend API server
+│   ├── controllers/        # API controllers
+│   ├── routes/            # API route definitions
+│   ├── model.js           # Database models
+│   ├── db.js              # Database connection
+│   ├── app.js             # Express server setup
+│   └── swagger.js         # Swagger configuration
+├── frontend/               # Frontend web application
+│   ├── pages/             # HTML pages
+│   ├── css/               # Stylesheets
+│   ├── img/               # Images
+│   └── src/               # JavaScript source files
+└── package.json           # Project dependencies
+```
+
+## Testing
+
+Run the API test suite to verify everything is working:
+
+```bash
+node backend/test-swagger.js
+```
+
+This will test:
+- Server connectivity
+- User registration and login
+- Car creation
+- Rental creation
+- Data retrieval endpoints
+
+## Database
+
+The system uses SQLite for data storage. The database file (`car_rental.db`) is automatically created when you first run the application.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the ISC License.
+
+## Support
+
+For questions or issues:
+1. Check the API documentation at `/api-docs`
+2. Review the console logs for error messages
+3. Ensure all dependencies are installed
+4. Verify the server is running on the correct port
 
 ---
 
-Built with ❤️ to provide a convenient and hassle-free car rental experience.
+**Happy Coding! 🚗✨**

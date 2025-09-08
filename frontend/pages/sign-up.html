@@ -17,44 +17,62 @@
     <section class="container forms">
         <div class="form Sign Up">
             <div class="form-content">
-                <header>Sign Up</header>
+                <!-- ...existing code... -->
+                <div class="form-content">
+
+                    <!-- ...existing code... -->
+                    <div class="form-content">
+                        <div style="text-align:center; margin-bottom: 20px;">
+                            <img src="/img/jeep.png" alt="Logo" style="width:60px;">
+                            <div style="margin-top:10px; font-size:1.1em; color:#3498db;">
+                                Join our Car Rental community and start your journey!
+                            </div>
+                        </div>
 
 
-                <form action="/">
-                    <div class="field input-field">
-                        <input type="text" placeholder="Full Name" class="input" required>
+                        <header>Sign Up</header>
+                        <!-- ...rest of your form... -->
+
+
+
+
+                        <form action="/">
+                            <div class="field input-field">
+                                <input type="text" placeholder="Full Name" class="input" required>
+                            </div>
+
+                            <div class="field input-field">
+                                <input type="email" placeholder="Email" class="input" required>
+                            </div>
+
+                            <div class="field input-field">
+                                <input type="password" placeholder="Password" class="password" required>
+                                <i class='bx bx-hide eye-icon'></i>
+                            </div>
+
+
+                            <div class="field input-field">
+                                <input type="password" placeholder="Confirm Password" class="password"
+                                    id="confirm-password" required>
+                                <i class='bx bx-hide eye-icon'></i>
+                            </div>
+
+
+
+                            <div class="field button-field">
+                                <button>Sign Up</button>
+                            </div>
+
+                        </form>
+
+                        <div class="form-link">
+                            <span>Already have an account? <a href="/pages/sign-in.html" class="link signin link">Sign
+                                    In</a></span>
+                            <span>Or Go <a href="/" class="link signin link">Home</a></span>
+
+                        </div>
+
                     </div>
-
-                    <div class="field input-field">
-                        <input type="email" placeholder="Email" class="input" required>
-                    </div>
-
-                    <div class="field input-field">
-                        <input type="password" placeholder="Password" class="password" required>
-                        <i class='bx bx-hide eye-icon'></i>
-                    </div>
-
-
-                    <div class="field input-field">
-                        <input type="password" placeholder="Password" class="password" required>
-                        <i class='bx bx-hide eye-icon'></i>
-                    </div>
-
-
-
-                    <div class="field button-field">
-                        <button>Sign Up</button>
-                    </div>
-
-                </form>
-
-                <div class="form-link">
-                    <span>Already have an account? <a href="/pages/sign-in.html" class="link signin link">Sign In</a></span>
-                    <span>Or Go <a href="/" class="link signin link">Home</a></span>
-
-                </div>
-
-            </div>
 
     </section>
 
@@ -98,7 +116,15 @@
             })
         })
 
-
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const password = document.querySelectorAll(".password")[0].value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                e.preventDefault(); // Prevent form submission
+                return false;
+            }
+        });
 
     </script>
 
