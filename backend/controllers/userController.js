@@ -1,5 +1,7 @@
 const { UserModel } = require('../model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../middleware/auth');
 
 /**
  * User Controller - Handles all user-related operations
@@ -458,11 +460,24 @@ class UserController {
         // Remove password from response
         const { password: userPassword, ...userWithoutPassword } = user;
 
+        // Generate JWT token
+        const token = jwt.sign(
+          {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role || 'user'
+          },
+          JWT_SECRET,
+          { expiresIn: '24h' }
+        );
+
         res.json({
           success: true,
           message: 'Login successful',
           data: {
-            user: userWithoutPassword
+            user: userWithoutPassword,
+            token: token
           }
         });
       } catch (compareError) {
@@ -853,11 +868,24 @@ class UserController {
 
         const { password: userPassword, ...adminWithoutPassword } = user;
 
+        // Generate JWT token for admin
+        const token = jwt.sign(
+          {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role
+          },
+          JWT_SECRET,
+          { expiresIn: '24h' }
+        );
+
         res.json({
           success: true,
           message: 'Admin login successful',
           data: {
-            admin: adminWithoutPassword
+            admin: adminWithoutPassword,
+            token: token
           }
         });
       } catch (compareError) {
