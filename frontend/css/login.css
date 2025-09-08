@@ -107,7 +107,7 @@ form {
 }
 
 body {
-  background-image: url("./img/abstract-design-background-smooth-flowing-lines.jpg");
+  background-image: url("../img/abstract-design-background-smooth-flowing-lines.jpg");
   background-size: cover;
 }
 
@@ -169,4 +169,40 @@ a.facebook .facebook-icon {
   .form {
     padding: 15px 10px;
   }
+}
+
+
+.form-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.form-logo {
+  width: 60px;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.form-tagline {
+  font-size: 14px;
+  color: #555;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.form-tagline {
+  font-size: 14px;
+  color: #ff6600;
+  /* Change this to any color you like */
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.form-content header {
+  color: #333;
+  /* Or any color you prefer */
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 10px;
 }

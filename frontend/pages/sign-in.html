@@ -7,7 +7,7 @@
 
     <!-- link to the css -->
     <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="/css/stylesheet.css">
+
 
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -16,26 +16,16 @@
 <!-- <body style="background-image: url('./img/abstract-design-background-smooth-flowing-lines.jpg'); background-size: cover;"> -->
 
 <body>
-    <!--Header-->
-    <header>
-        <a href="/" class="logo"><img src="/img/jeep.png" alt="DriveSmart Logo"></a>
-        
-        <div class="bx bx-menu" id="menu-icon"></div>
-        
-        <ul class="navbar">
-            <li><a href="/"> Home </a></li>
-            <li><a href="/pages/services.html"> Fleets </a></li>
-            <li><a href="/pages/about.html"> About </a></li>
-            <li><a href="#reviews"> Reviews </a></li>
-        </ul>
-        
-        <div class="header-btn">
-            <a href="/pages/sign-in.html"><button class="sign-in">Sign In</button></a>
-            <a href="/pages/sign-up.html"><button class="sign-up">Sign Up</button></a>
-        </div>
-    </header>
+
+
 
     <section class="container forms">
+        <!--Header--><!-- ✅ Logo and writeup -->
+        <div class="form-header">
+            <img src="/img/jeep.png" alt="DriveSmart Logo" class="form-logo"> <br>
+            <p class="form-tagline">Welcome back! Please login to your account </p>
+        </div>
+
         <div class="form Sign In">
             <div class="form-content">
                 <header>Login</header>
@@ -65,7 +55,8 @@
                 </form>
 
                 <div class="form-link">
-                    <span>Don't have an account? <a href="/pages/sign-up.html" class="link signup-link">Sign Up</a></span>
+                    <span>Don't have an account? <a href="/pages/sign-up.html" class="link signup-link">Sign
+                            Up</a></span>
                     <span>Or Go <a href="/" class="link signin link">Home</a></span>
 
                 </div>
@@ -80,14 +71,14 @@
     <script>
         // API Configuration
         const API_BASE_URL = 'http://localhost:3001/api';
-        
+
         // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
-            
+
             try {
                 const response = await fetch(`${API_BASE_URL}/users/login`, {
                     method: 'POST',
@@ -103,7 +94,7 @@
                     // Store token and user data
                     localStorage.setItem('userToken', data.data.token);
                     localStorage.setItem('userData', JSON.stringify(data.data.user));
-                    
+
                     // Redirect to home page or dashboard
                     window.location.href = '/pages/index.html';
                 } else {
@@ -114,7 +105,7 @@
                 alert('Network error. Please try again.');
             }
         });
-        
+
         function validateLogin() {
             // This function is now handled by the form submit event above
         }
