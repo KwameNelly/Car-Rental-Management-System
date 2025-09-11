@@ -5,96 +5,136 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Booking Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+
     <style>
-        /* ... your existing CSS ... (same as before, no changes needed) */
+        :root {
+            --main-color: #2563eb;
+            --second-color: #3b82f6;
+            --accent-color: #f59e0b;
+            --text-color: #1e293b;
+            --background-white: #ffffff;
+            --background-light: #f8fafc;
+            --border-radius: 12px;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+            background: url("/img/abstract-design-background-smooth-flowing-lines.jpg") center/cover fixed;
+            color: var(--text-color);
         }
 
         .booking-form {
-            background-color: #fff;
-            margin-top: 30px;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
+            background: var(--background-white);
+            margin: 40px auto;
+            padding: 35px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--shadow-color);
             max-width: 600px;
+            width: 100%;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
+            background: linear-gradient(to right, var(--main-color), var(--accent-color));
+            -webkit-background-clip: text;
+            color: transparent;
+            font-size: 28px;
+            font-weight: 600;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
             margin-bottom: 6px;
-            font-weight: bold;
+            font-weight: 500;
         }
 
         input,
         select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
             font-size: 1rem;
+            background: var(--background-light);
         }
 
-        input[type="file"] {
-            padding: 5px;
+        input:invalid {
+            border-color: red;
         }
 
         .btn {
             width: 100%;
-            padding: 12px;
-            background-color: #007bff;
+            padding: 14px;
+            background: linear-gradient(to right, var(--main-color), var(--second-color));
             color: #fff;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--border-radius);
             font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            opacity: 0.9;
         }
 
-        .mobile-money-details,
-        .card-details {
+        .modal {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            z-index: 1000;
         }
 
-        .error {
-            color: red;
-            font-size: 0.9em;
-            margin-top: 4px;
+        .modal-content {
+            background: #fff;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            width: 420px;
+            max-width: 95%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            text-align: left;
         }
 
-        .booking-summary {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e6ffe6;
-            border: 1px solid #b2d8b2;
-            border-radius: 8px;
+        .receipt-logo {
+            display: block;
+            margin: 0 auto 10px auto;
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
         }
 
-        body {
-            background-image: url("/img/abstract-design-background-smooth-flowing-lines.jpg");
-            background-size: cover;
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+
+        .modal-actions .btn {
+            width: 32%;
         }
     </style>
 </head>
@@ -103,59 +143,54 @@
     <div class="booking-form">
         <h2>Car Booking Form</h2>
         <form id="booking-form">
-            <!-- Form fields (unchanged) -->
             <div class="form-group">
-              <!--  <label for="car">Select Car</label>
-                <select id="car" name="car" required>
-                    <option value="">-- Loading Cars... --</option>
-                </select>
-                -->
-                <label for="car">Enter Car</label>
-                <input type="text" id="car" name="car" placeholder="e.g. Honda Civic 2018" required>
-
+                <label for="car">Car Selected</label>
+                <input type="text" id="car" readonly required>
             </div>
-
-            <!--
-            <div class="form-group">
-                <label for="pickup-location">Pickup Location</label>
-                <input type="text" id="pickup-location" name="pickup-location" required>
-            </div>
-            -->
 
             <div class="form-group">
                 <label for="pickup-date">Pickup Date</label>
-                <input type="date" id="pickup-date" name="pickup-date" required>
+                <input type="date" id="pickup-date" required>
             </div>
 
             <div class="form-group">
                 <label for="return-date">Return Date</label>
-                <input type="date" id="return-date" name="return-date" required>
+                <input type="date" id="return-date" required>
             </div>
 
-            <button type="button" onclick="checkCarAvailability()">Check Availability</button>
+            <div class="form-group">
+                <label for="pickup-point">Pickup Point</label>
+                <input type="text" id="pickup-point" value="Accra Mall" readonly required>
+            </div>
 
-            <!-- Availability message -->
-            <p id="availabilityMsg"></p>
-
+            <div class="form-group">
+                <label for="return-point">Return Point</label>
+                <input type="text" id="return-point" value="Accra Mall" readonly required>
+            </div>
 
             <div class="form-group">
                 <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" required>
             </div>
 
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="+233..." required>
+                <input type="tel" id="phone" placeholder="+233XXXXXXXXX" pattern="^\+233[0-9]{9}$" required>
             </div>
 
             <div class="form-group">
-                <label for="license">Upload Driver's License</label>
-                <input type="file" id="license" name="license" accept="image/*,application/pdf" required />
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="example@mail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="license">Driver's License Number</label>
+                <input type="text" id="license" pattern="[A-Z0-9]{5,15}" required>
             </div>
 
             <div class="form-group">
                 <label for="payment">Payment Method</label>
-                <select id="payment" name="payment" required onchange="toggleMobileMoneyFields()">
+                <select id="payment" required>
                     <option value="">-- Select Payment Method --</option>
                     <option value="Mobile Money">Mobile Money</option>
                     <option value="Card">Credit/Debit Card</option>
@@ -163,209 +198,270 @@
                 </select>
             </div>
 
-            <!-- Mobile Money Fields -->
-            <div class="mobile-money-details" id="mobile-money-details">
-                <div class="form-group">
-                    <label for="network">Mobile Network</label>
-                    <select id="network" name="network">
-                        <option value="">-- Select Network --</option>
-                        <option value="MTN">MTN</option>
-                        <option value="Vodafone">Vodafone</option>
-                        <option value="AirtelTigo">AirtelTigo</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="mm-number">Mobile Money Number</label>
-                    <input type="tel" id="mm-number" name="mm-number" placeholder="e.g. 0244123456" />
-                    <div class="error" id="mm-error"></div>
-                </div>
+            <div class="form-group" id="momo-group" style="display:none;">
+                <label for="momo-number">MoMo Number</label>
+                <input type="tel" id="momo-number" placeholder="+233XXXXXXXXX">
             </div>
 
-            <!-- Card Fields -->
-            <div class="card-details" id="card-details">
-                <div class="form-group">
-                    <label for="card-number">Card Number</label>
-                    <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456"
-                        maxlength="19">
-                </div>
-
-                <div class="form-group">
-                    <label for="expiry-date">Expiry Date</label>
-                    <input type="month" id="expiry-date" name="expiry-date">
-                </div>
-
-                <div class="form-group">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" maxlength="4" placeholder="123">
-                </div>
-
-                <div class="form-group">
-                    <label for="card-name">Name on Card</label>
-                    <input type="text" id="card-name" name="card-name">
-                </div>
+            <div class="form-group" id="card-group" style="display:none;">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" maxlength="16" placeholder="16-digit card number">
+                <label for="card-expiry">Expiry Date</label>
+                <input type="month" id="card-expiry">
+                <label for="card-cvv">CVV</label>
+                <input type="text" id="card-cvv" maxlength="4" placeholder="3 or 4 digits">
             </div>
 
-            <button type="submit" class="btn">Confirm Booking</button>
+            <button type="submit" class="btn">Proceed to Receipt</button>
         </form>
-
-        <div class="booking-summary" id="booking-summary" style="display: none;"></div>
     </div>
 
-    <script>
-        // API Configuration
-        const API_BASE_URL = 'http://localhost:3001/api';
-        
-        // Load cars from database
-        async function loadCarsFromDatabase() {
+    <div id="receipt-modal" class="modal">
+        <div class="modal-content">
+            <img src="/img/jeep.png" alt="Company Logo" class="receipt-logo">
+            <h3>Booking Receipt</h3>
+            <div id="receipt-details"></div>
+            <div class="modal-actions">
+                <button id="confirm-booking" class="btn">Confirm</button>
+                <button id="cancel-booking" class="btn">Cancel</button>
+                <button id="download-receipt" class="btn">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script type="module">
+        import { getCarById } from '/src/carApi.js';
+        import { createRental } from '/src/rentalApi.js';
+
+        let selectedCarId = null;
+        let selectedCar = null;
+        let pendingRentalData = null;
+
+        // Load car
+        const params = new URLSearchParams(window.location.search);
+        const carId = params.get("carId") || localStorage.getItem("selectedCarId");
+        if (carId) loadCarDetails(carId);
+
+        async function loadCarDetails(carId) {
             try {
-                const response = await fetch(`${API_BASE_URL}/cars`);
-                const data = await response.json();
-                
-                if (data.success && data.data) {
-                    populateCarSelect(data.data);
-                } else {
-                    console.error('Failed to load cars:', data.message);
+                const res = await getCarById(carId);
+                if (res.success && res.data) {
+                    selectedCar = res.data;
+                    selectedCarId = carId;
+                    document.getElementById("car").value =
+                        `${selectedCar.make} ${selectedCar.model} ${selectedCar.year}`;
                 }
-            } catch (error) {
-                console.error('Error loading cars:', error);
+            } catch (err) {
+                console.error("Error loading car:", err);
             }
         }
-        
-        // Populate car select dropdown
-        function populateCarSelect(cars) {
-            const carSelect = document.getElementById('car');
-            carSelect.innerHTML = '<option value="">-- Select a Car --</option>';
-            
-            cars.forEach(car => {
-                if (car.availability === 1) { // Only show available cars
-                    const option = document.createElement('option');
-                    option.value = car.id;
-                    option.textContent = `${car.year} ${car.make} ${car.model} - GHS${car.price_per_day}/day`;
-                    carSelect.appendChild(option);
-                }
-            });
-            
-            // Pre-select car if carId is provided in URL
-            preselectCar();
-        }
-        
-        // Get URL parameters
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-        
-        // Pre-select car if carId is provided in URL
-        function preselectCar() {
-            const carId = getUrlParameter('carId');
-            if (carId) {
-                const carSelect = document.getElementById('car');
-                carSelect.value = carId;
-            }
-        }
-        
-        // Load cars when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCarsFromDatabase();
+
+        // Show/hide payment fields
+        document.getElementById("payment").addEventListener("change", function () {
+            document.getElementById("momo-group").style.display = this.value === "Mobile Money" ? "block" : "none";
+            document.getElementById("card-group").style.display = this.value === "Card" ? "block" : "none";
         });
-        
-        function toggleMobileMoneyFields() {
-            const payment = document.getElementById("payment").value;
-            const mmFields = document.getElementById("mobile-money-details");
-            const cardFields = document.getElementById("card-details");
 
-            const mmRequired = payment === "Mobile Money";
-            mmFields.style.display = mmRequired ? "block" : "none";
-            document.getElementById("network").required = mmRequired;
-            document.getElementById("mm-number").required = mmRequired;
+        function showReceipt() {
+            const pickupDate = document.getElementById("pickup-date").value;
+            const returnDate = document.getElementById("return-date").value;
+            const days = Math.ceil((new Date(returnDate) - new Date(pickupDate)) / (1000 * 60 * 60 * 24));
+            const totalAmount = selectedCar ? days * selectedCar.price_per_day : 0;
 
-            const cardRequired = payment === "Card";
-            cardFields.style.display = cardRequired ? "block" : "none";
-            document.getElementById("card-number").required = cardRequired;
-            document.getElementById("expiry-date").required = cardRequired;
-            document.getElementById("cvv").required = cardRequired;
-            document.getElementById("card-name").required = cardRequired;
+            pendingRentalData = {
+                car_id: selectedCarId,
+                pickup_date: pickupDate,
+                return_date: returnDate,
+                payment_method: document.getElementById("payment").value,
+                days,
+                totalAmount,
+                name: document.getElementById("name").value,
+                phone: document.getElementById("phone").value,
+                email: document.getElementById("email").value,
+                license: document.getElementById("license").value,
+                pickup_point: document.getElementById("pickup-point").value,
+                return_point: document.getElementById("return-point").value,
+            };
+
+            document.getElementById("receipt-details").innerHTML = `
+        <p><strong>Name:</strong> ${pendingRentalData.name}</p>
+        <p><strong>Phone:</strong> ${pendingRentalData.phone}</p>
+        <p><strong>Email:</strong> ${pendingRentalData.email}</p>
+        <p><strong>Driver's License:</strong> ${pendingRentalData.license}</p>
+        <p><strong>Car:</strong> ${document.getElementById("car").value}</p>
+        <p><strong>Pickup Date:</strong> ${pickupDate}</p>
+        <p><strong>Return Date:</strong> ${returnDate}</p>
+        <p><strong>Duration:</strong> ${days} day(s)</p>
+        <p><strong>Price/Day:</strong> GHS${selectedCar.price_per_day}</p>
+        <p><strong>Total Amount:</strong> GHS${totalAmount}</p>
+        <p><strong>Payment Method:</strong> ${pendingRentalData.payment_method}</p>
+        <p><strong>Pickup Point:</strong> ${pendingRentalData.pickup_point}</p>
+        <p><strong>Return Point:</strong> ${pendingRentalData.return_point}</p>
+      `;
+
+            document.getElementById("receipt-modal").style.display = "flex";
         }
 
+        // Form validation
         document.getElementById("booking-form").addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const payment = document.getElementById("payment").value;
-            const mmNumber = document.getElementById("mm-number").value.trim();
-            const network = document.getElementById("network").value;
-            const mmError = document.getElementById("mm-error");
-            mmError.textContent = "";
+            const pickupDate = new Date(document.getElementById("pickup-date").value);
+            const returnDate = new Date(document.getElementById("return-date").value);
+            if (returnDate < pickupDate) {
+                alert("❌ Return date cannot be before pickup date!");
+                return;
+            }
 
-            if (payment === "Mobile Money") {
-                const networkPrefixes = {
-                    "MTN": ["024", "025", "054", "055", "059"],
-                    "Vodafone": ["020", "050"],
-                    "AirtelTigo": ["027", "057", "026", "056"]
-                };
-                const prefix = mmNumber.slice(0, 3);
-                if (!networkPrefixes[network]?.includes(prefix)) {
-                    mmError.textContent = `Number prefix does not match selected network (${network}).`;
+            const phone = document.getElementById("phone").value;
+            if (!/^\+233[0-9]{9}$/.test(phone)) {
+                alert("❌ Enter a valid Ghana phone number.");
+                return;
+            }
+
+            const license = document.getElementById("license").value;
+            if (!/^[A-Z0-9]{5,15}$/.test(license)) {
+                alert("❌ Enter a valid Driver's License number.");
+                return;
+            }
+
+            const paymentMethod = document.getElementById("payment").value;
+            if (paymentMethod === "Mobile Money") {
+                const momo = document.getElementById("momo-number").value;
+                if (!/^\+233[0-9]{9}$/.test(momo)) {
+                    alert("❌ Enter a valid MoMo number.");
                     return;
                 }
-                if (mmNumber.length !== 10) {
-                    mmError.textContent = "Mobile money number must be 10 digits.";
+            } else if (paymentMethod === "Card") {
+                const cardNum = document.getElementById("card-number").value;
+                const expiry = document.getElementById("card-expiry").value;
+                const cvv = document.getElementById("card-cvv").value;
+
+                if (!/^[0-9]{16}$/.test(cardNum)) {
+                    alert("❌ Enter a valid 16-digit card number.");
+                    return;
+                }
+                if (!expiry) {
+                    alert("❌ Enter card expiry date.");
+                    return;
+                }
+                if (!/^[0-9]{3,4}$/.test(cvv)) {
+                    alert("❌ Enter a valid CVV.");
                     return;
                 }
             }
 
-            if (payment === "Card") {
-                const cardNumber = document.getElementById("card-number").value.replace(/\s/g, "");
-                if (cardNumber.length < 13 || cardNumber.length > 19 || isNaN(cardNumber)) {
-                    alert("Invalid card number.");
-                    return;
-                }
+            if (!confirm("⚠️ Please confirm payment details before proceeding.")) {
+                return;
             }
 
-            const details = {
-                car: document.getElementById("car").value,
-                location: document.getElementById("pickup-location").value,
-                pickupDate: document.getElementById("pickup-date").value,
-                returnDate: document.getElementById("return-date").value,
-                name: document.getElementById("name").value,
-                phone: document.getElementById("phone").value,
-                payment: payment,
-                network: network,
-                mmNumber: mmNumber,
-                card: payment === "Card" ? {
-                    cardNumber: document.getElementById("card-number").value,
-                    expiry: document.getElementById("expiry-date").value,
-                    cvv: document.getElementById("cvv").value,
-                    cardName: document.getElementById("card-name").value
-                } : null
-            };
+            showReceipt();
+        });
 
-            const summary = document.getElementById("booking-summary");
-            summary.innerHTML = `
-        <h3>Booking Summary</h3>
-        <p><strong>Car:</strong> ${details.car}</p>
-        <p><strong>Pickup Location:</strong> ${details.location}</p>
-        <p><strong>Pickup Date:</strong> ${details.pickupDate}</p>
-        <p><strong>Return Date:</strong> ${details.returnDate}</p>
-        <p><strong>Name:</strong> ${details.name}</p>
-        <p><strong>Phone:</strong> ${details.phone}</p>
-        <p><strong>Payment Method:</strong> ${details.payment}</p>
-        ${details.payment === "Mobile Money" ? `
-          <p><strong>Network:</strong> ${details.network}</p>
-          <p><strong>Mobile Money Number:</strong> ${details.mmNumber}</p>` : ""}
-        ${details.payment === "Card" ? `
-          <p><strong>Card Holder:</strong> ${details.card.cardName}</p>
-          <p><strong>Card Number:</strong> ${details.card.cardNumber}</p>
-          <p><strong>Expiry:</strong> ${details.card.expiry}</p>` : ""}
-        <p style="color: green;"><strong>Status:</strong> ✅ Booking Submitted Successfully</p>
-      `;
-            summary.style.display = "block";
+        // Confirm booking
+        document.getElementById("confirm-booking").addEventListener("click", async () => {
+            try {
+                const res = await createRental(pendingRentalData);
+                if (res.success) {
+                    alert("✅ Booking confirmed!");
+                } else {
+                    alert("❌ Error: " + res.message);
+                }
+            } catch (err) {
+                console.error("Booking error:", err);
+            } finally {
+                document.getElementById("receipt-modal").style.display = "none";
+            }
+        });
 
-            this.reset();
-            toggleMobileMoneyFields(); // Hide fields after reset
+        // Cancel
+        document.getElementById("cancel-booking").addEventListener("click", () => {
+            pendingRentalData = null;
+            document.getElementById("receipt-modal").style.display = "none";
+        });
+
+        // Download PDF
+        document.getElementById("download-receipt").addEventListener("click", async () => {
+            if (!pendingRentalData || !selectedCar) {
+                alert("❌ No booking data available to download.");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Try logo
+            async function loadImageBase64(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.crossOrigin = 'Anonymous';
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        resolve(canvas.toDataURL('image/png'));
+                    };
+                    img.onerror = reject;
+                    img.src = url;
+                });
+            }
+
+            let logoBase64 = '';
+            try {
+                logoBase64 = await loadImageBase64('/img/jeep.png');
+            } catch {
+                console.warn("Logo not found, skipping.");
+            }
+
+            if (logoBase64) {
+                const imgProps = doc.getImageProperties(logoBase64);
+                const logoWidth = 20;
+                const logoHeight = (imgProps.height * logoWidth) / imgProps.width;
+                doc.addImage(logoBase64, 'PNG', 15, 10, logoWidth, logoHeight);
+            }
+
+            doc.setFontSize(18);
+            doc.setTextColor(37, 99, 235);
+            doc.text("Car Rental Receipt", 105, 25, { align: "center" });
+
+            doc.setDrawColor(37, 99, 235);
+            doc.line(20, 30, 190, 30);
+
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+
+            let y = 40;
+            doc.setFont(undefined, 'bold');
+            doc.text("Customer Information:", 20, y); y += 8;
+            doc.setFont(undefined, 'normal');
+
+            ['name', 'phone', 'email', 'license'].forEach(field => {
+                doc.text(`${field.toUpperCase()}: ${pendingRentalData[field]}`, 25, y);
+                y += 7;
+            });
+
+            y += 5;
+            doc.setFont(undefined, 'bold');
+            doc.text("Booking Information:", 20, y); y += 8;
+            doc.setFont(undefined, 'normal');
+
+            doc.text(`Car: ${document.getElementById("car").value}`, 25, y); y += 7;
+            doc.text(`Pickup Date: ${pendingRentalData.pickup_date}`, 25, y); y += 7;
+            doc.text(`Return Date: ${pendingRentalData.return_date}`, 25, y); y += 7;
+            doc.text(`Duration: ${pendingRentalData.days} day(s)`, 25, y); y += 7;
+            doc.text(`Price/Day: GHS ${selectedCar.price_per_day}`, 25, y); y += 7;
+            doc.text(`Total Amount: GHS ${pendingRentalData.totalAmount}`, 25, y); y += 7;
+            doc.text(`Payment Method: ${pendingRentalData.payment_method}`, 25, y); y += 7;
+            doc.text(`Pickup Point: ${pendingRentalData.pickup_point}`, 25, y); y += 7;
+            doc.text(`Return Point: ${pendingRentalData.return_point}`, 25, y); y += 10;
+
+            doc.save(`CarBooking_${new Date().toISOString().slice(0, 10)}.pdf`);
         });
     </script>
 </body>
 
 </html>
-
