@@ -93,11 +93,15 @@
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    // Store token and user data
-                    localStorage.setItem('userToken', data.data.token);
-                    localStorage.setItem('userData', JSON.stringify(data.data.user));
+                    // ✅ Store token as "authToken" (to match API files)
+                    localStorage.setItem('authToken', data.token);
 
-                    // Redirect to home page or dashboard
+                    // Optionally store user info (if returned)
+                    if (data.user) {
+                        localStorage.setItem('userData', JSON.stringify(data.user));
+                    }
+
+                    // ✅ Redirect after login
                     window.location.href = '/pages/index.html';
                 } else {
                     alert(data.message || 'Login failed. Please try again.');
@@ -108,16 +112,10 @@
             }
         });
 
-        function validateLogin() {
-            // This function is now handled by the form submit event above
-        }
-
-
-
+        // Toggle show/hide password
         const forms = document.querySelector(".forms"),
             pwShowHide = document.querySelectorAll(".eye-icon"),
             links = document.querySelectorAll(".link");
-
 
         pwShowHide.forEach(eyeIcon => {
             eyeIcon.addEventListener("click", () => {
@@ -127,14 +125,13 @@
                     if (password.type === "password") {
                         password.type = "text";
                         eyeIcon.classList.replace("bx-hide", "bx-show");
-                        return;
+                    } else {
+                        password.type = "password";
+                        eyeIcon.classList.replace("bx-show", "bx-hide");
                     }
-                    password.type = "password"
-                    eyeIcon.classList.replace("bx-show", "bx-hide");
-                })
-            })
-        })
-
+                });
+            });
+        });
 
     </script>
 

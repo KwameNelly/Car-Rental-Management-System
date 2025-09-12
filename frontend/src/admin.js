@@ -29,11 +29,11 @@ async function apiRequest(endpoint, options = {}) {
     try {
         const response = await fetch(url, config);
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.message || 'API request failed');
         }
-        
+
         return data;
     } catch (error) {
         console.error('API Error:', error);
@@ -48,27 +48,27 @@ async function loadDashboardData() {
         // Load cars
         const carsResponse = await apiRequest('/cars');
         cars = carsResponse.data;
-        
+
         // Load bookings (rentals)
         const bookingsResponse = await apiRequest('/rentals');
         bookings = bookingsResponse.data;
-        
+
         // Load users
         const usersResponse = await apiRequest('/users');
         users = usersResponse.data;
-        
+
         // Update admin welcome message
         const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
         const adminWelcome = document.getElementById('adminWelcome');
         if (adminWelcome && adminUser.username) {
             adminWelcome.textContent = `Welcome, ${adminUser.username}`;
         }
-        
+
         // Update UI
         renderCars();
         renderBookings();
         updateDashboard();
-        
+
     } catch (error) {
         console.error('Failed to load dashboard data:', error);
     }
@@ -100,7 +100,7 @@ addCarBtn.onclick = () => { modalTitle.innerText = "Add Car"; carForm.reset(); c
 
 carForm.onsubmit = async function (e) {
     e.preventDefault();
-    
+
     const formData = new FormData();
     formData.append('make', carBrand.value);
     formData.append('model', carName.value);
@@ -112,13 +112,13 @@ carForm.onsubmit = async function (e) {
     formData.append('fuel_type', 'Petrol');
     formData.append('transmission', 'Automatic');
     formData.append('seats', 5);
-    
+
     // Add image if selected
     const imageFile = document.getElementById('carImage').files[0];
     if (imageFile) {
         formData.append('image', imageFile);
     }
-    
+
     try {
         if (carIndex.value === "") {
             // Create new car
@@ -136,7 +136,7 @@ carForm.onsubmit = async function (e) {
                 body: formData
             });
         }
-        
+
         carModal.style.display = "none";
         await loadDashboardData(); // Reload all data
     } catch (error) {
@@ -220,14 +220,14 @@ addBookingBtn.onclick = () => {
 
 bookingForm.onsubmit = async function (e) {
     e.preventDefault();
-    
+
     // Find user by name or create a new one
     let userId = users.find(u => u.full_name === customerName.value)?.id;
     if (!userId) {
         // For demo purposes, use first user or create a placeholder
         userId = users.length > 0 ? users[0].id : 1;
     }
-    
+
     const data = {
         user_id: userId,
         car_id: parseInt(carBooked.value),
@@ -238,7 +238,7 @@ bookingForm.onsubmit = async function (e) {
         payment_method: "Credit Card",
         notes: `Status: ${bookingStatus.value}`
     };
-    
+
     try {
         if (bookingIndex.value === "") {
             // Create new booking
@@ -254,7 +254,7 @@ bookingForm.onsubmit = async function (e) {
                 body: JSON.stringify({ status: bookingStatus.value.toLowerCase() })
             });
         }
-        
+
         bookingModal.style.display = "none";
         await loadDashboardData(); // Reload all data
     } catch (error) {
@@ -268,10 +268,10 @@ function renderBookings() {
         // Find car and user details
         const car = cars.find(c => c.id === b.car_id);
         const user = users.find(u => u.id === b.user_id);
-        
+
         const carName = car ? `${car.make} ${car.model}` : 'Unknown Car';
         const customerName = user ? user.full_name : 'Unknown Customer';
-        
+
         bookingTableBody.innerHTML += `
       <tr>
         <td>${customerName}</td><td>${carName}</td><td>${b.pickup_date}</td><td>${b.return_date}</td><td>${b.status}</td>
@@ -286,7 +286,7 @@ function editBooking(i) {
     const b = bookings[i];
     const user = users.find(u => u.id === b.user_id);
     const car = cars.find(c => c.id === b.car_id);
-    
+
     bookingModalTitle.innerText = "Edit Booking";
     bookingIndex.value = i;
     customerName.value = user ? user.full_name : '';
@@ -319,16 +319,32 @@ function logout() {
 }
 
 // Add logout event listener
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const logoutLink = document.querySelector('a[href="#"]:last-child');
     if (logoutLink && logoutLink.textContent.includes('Logout')) {
-        logoutLink.addEventListener('click', function(e) {
+        logoutLink.addEventListener('click', function (e) {
             e.preventDefault();
             logout();
         });
     }
 });
 
+
 // Initialize dashboard
 loadDashboardData();
+
+
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("userData");
+    window.location.href = "/pages/login.html";
+});
+
+
+
+const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+if (adminWelcome && adminUser.username) {
+    adminWelcome.textContent = `Welcome, ${adminUser.username}`;
+}
 
