@@ -93,17 +93,19 @@
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    // ✅ Store token as "authToken" (to match API files)
-                    localStorage.setItem('authToken', data.token);
+                    // ✅ FIX: token is inside data.data.token
+                    localStorage.setItem('authToken', data.data.token);
 
-                    // Optionally store user info (if returned)
-                    if (data.user) {
-                        localStorage.setItem('userData', JSON.stringify(data.user));
+                    // ✅ FIX: user info is inside data.data.user
+                    if (data.data.user) {
+                        localStorage.setItem('userData', JSON.stringify(data.data.user));
                     }
 
                     // ✅ Redirect after login
                     window.location.href = '/pages/index.html';
-                } else {
+                }
+
+                else {
                     alert(data.message || 'Login failed. Please try again.');
                 }
             } catch (error) {

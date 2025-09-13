@@ -48,8 +48,12 @@ export async function login(credentials) {
         const data = await handleResponse(res);
 
         // ✅ Store token if login successful
-        if (data.success && data.token) {
-            localStorage.setItem("authToken", data.token);
+        if (data.success && data.data && data.data.token) {
+            localStorage.setItem("authToken", data.data.token);
+            localStorage.setItem("user", JSON.stringify(data.data.user)); // optional
+            console.log("Token saved:", data.data.token); // debug log
+        } else {
+            console.warn("No token found in response:", data);
         }
 
         return data;
@@ -58,20 +62,6 @@ export async function login(credentials) {
     }
 }
 
-// Get logged-in user profile
-export async function getProfile() {
-    try {
-        const res = await fetch(`${BASE_URL}/users/profile`, {
-            headers: {
-                "Content-Type": "application/json",
-                ...getAuthHeaders()
-            }
-        });
-        return await handleResponse(res);
-    } catch (err) {
-        return { success: false, message: err.message };
-    }
-}
 
 // Logout (clear token)
 export function logout() {

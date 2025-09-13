@@ -271,9 +271,12 @@
             const totalAmount = selectedCar ? days * selectedCar.price_per_day : 0;
 
             pendingRentalData = {
+                user_id: JSON.parse(localStorage.getItem("userData")).id, // logged-in user
                 car_id: selectedCarId,
                 pickup_date: pickupDate,
                 return_date: returnDate,
+                pickup_location: document.getElementById("pickup-point").value, // ✅ renamed
+                return_location: document.getElementById("return-point").value, // ✅ renamed
                 payment_method: document.getElementById("payment").value,
                 days,
                 totalAmount,
@@ -281,9 +284,8 @@
                 phone: document.getElementById("phone").value,
                 email: document.getElementById("email").value,
                 license: document.getElementById("license").value,
-                pickup_point: document.getElementById("pickup-point").value,
-                return_point: document.getElementById("return-point").value,
             };
+
 
             document.getElementById("receipt-details").innerHTML = `
         <p><strong>Name:</strong> ${pendingRentalData.name}</p>
