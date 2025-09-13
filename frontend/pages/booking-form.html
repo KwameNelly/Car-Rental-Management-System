@@ -353,9 +353,7 @@
                 }
             }
 
-            if (!confirm("⚠️ Please confirm payment details before proceeding.")) {
-                return;
-            }
+
 
             showReceipt();
         });
@@ -364,17 +362,28 @@
         document.getElementById("confirm-booking").addEventListener("click", async () => {
             try {
                 const res = await createRental(pendingRentalData);
-                if (res.success) {
-                    alert("✅ Booking confirmed!");
+
+                if (res.success && res.data) {
+                    const bookingId = res.data.id || res.data._id || "N/A"; // adjust based on backend response
+                    const bookingStatus = res.data.status || "Pending";
+
+                    // Show confirmation with booking details
+                    alert(`✅ Booking confirmed!\n\nBooking ID: ${bookingId}\nStatus: ${bookingStatus}`);
+
+                    // Optionally redirect to a "My Bookings" page
+                    // window.location.href = "/pages/myBookings.html";
+
                 } else {
-                    alert("❌ Error: " + res.message);
+                    alert("❌ Error: " + (res.message || "Booking failed"));
                 }
             } catch (err) {
                 console.error("Booking error:", err);
+                alert("⚠️ Network error. Please try again.");
             } finally {
                 document.getElementById("receipt-modal").style.display = "none";
             }
         });
+
 
         // Cancel
         document.getElementById("cancel-booking").addEventListener("click", () => {

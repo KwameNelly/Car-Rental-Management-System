@@ -330,6 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
 // Initialize dashboard
 loadDashboardData();
 
@@ -338,7 +339,7 @@ loadDashboardData();
 document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userData");
-    window.location.href = "/pages/login.html";
+    window.location.href = "/pages/admin-login.html";
 });
 
 

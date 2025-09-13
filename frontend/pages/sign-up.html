@@ -8,33 +8,30 @@
     <!-- link to the css -->
     <link rel="stylesheet" href="/css/login.css">
 
-
     <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
-
 <body>
-
-
-
-
     <section class="container forms">
         <div class="form Sign Up">
             <div class="form-content">
                 <!-- ✅ Logo and writeup -->
                 <div class="form-header">
                     <img src="/img/jeep.png" alt="DriveSmart Logo" class="form-logo"> <br>
-                    <p class="form-tagline">Join DriveSmart and book your ride with ease </p>
-
+                    <p class="form-tagline">Create your account and start your journey today!</p>
                 </div>
 
                 <header>Sign Up</header>
 
-
                 <form id="signupForm">
                     <div class="field input-field">
                         <input type="text" id="fullName" placeholder="Full Name" class="input" required>
+                    </div>
+
+                    <!-- ✅ Username field -->
+                    <div class="field input-field">
+                        <input type="text" id="username" placeholder="Username" class="input" required>
                     </div>
 
                     <div class="field input-field">
@@ -46,34 +43,24 @@
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
-
                     <div class="field input-field">
                         <input type="password" id="confirmPassword" placeholder="Confirm Password" class="password"
                             required>
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
-
-
                     <div class="field button-field">
                         <button>Sign Up</button>
                     </div>
-
                 </form>
 
                 <div class="form-link">
                     <span>Already have an account? <a href="/pages/sign-in.html" class="link signin link">Sign
                             In</a></span>
                     <span>Or Go <a href="/" class="link signin link">Home</a></span>
-
                 </div>
-
             </div>
-
     </section>
-
-
-
 
     <script>
         // API Configuration
@@ -84,6 +71,7 @@
             e.preventDefault();
 
             const fullName = document.getElementById('fullName').value.trim();
+            const username = document.getElementById('username').value.trim(); // ✅ new username
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const confirmPassword = document.getElementById('confirmPassword').value.trim();
@@ -100,6 +88,12 @@
                 return;
             }
 
+            // Validate username
+            if (username.length < 3) {
+                alert('Username must be at least 3 characters long!');
+                return;
+            }
+
             try {
                 const response = await fetch(`${API_BASE_URL}/users/register`, {
                     method: 'POST',
@@ -108,6 +102,7 @@
                     },
                     body: JSON.stringify({
                         full_name: fullName,
+                        username: username, // ✅ send username
                         email: email,
                         password: password
                     })
@@ -127,16 +122,7 @@
             }
         });
 
-        function validateLogin() {
-            // This function is not needed for signup
-        }
-
-
-
-        const forms = document.querySelector(".forms"),
-            pwShowHide = document.querySelectorAll(".eye-icon"),
-            links = document.querySelectorAll(".link");
-
+        const pwShowHide = document.querySelectorAll(".eye-icon");
 
         pwShowHide.forEach(eyeIcon => {
             eyeIcon.addEventListener("click", () => {
@@ -152,26 +138,13 @@
                     eyeIcon.classList.replace("bx-show", "bx-hide");
                 })
             })
-        })
-
-
-
+        });
     </script>
 
     <!--Scroll Reveal-->
     <script src="https://unpkg.com/scrollreveal"></script>
-
     <!--Link to Js -->
     <script src="/src/main.js"></script>
-
-
-
-
-
-
-
-
 </body>
-
 
 </html>
