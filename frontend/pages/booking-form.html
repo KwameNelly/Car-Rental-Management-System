@@ -476,6 +476,40 @@
 
 
     </script>
+
+    <script>
+        // ✅ Prevent past dates
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("pickup-date").setAttribute("min", today);
+        document.getElementById("return-date").setAttribute("min", today);
+
+        // ✅ Ensure return date is after pickup date
+        document.getElementById("pickup-date").addEventListener("change", function () {
+            const pickupDate = this.value;
+            document.getElementById("return-date").setAttribute("min", pickupDate);
+        });
+
+        // ✅ Validate before submitting
+        document.getElementById("booking-form").addEventListener("submit", function (e) {
+            const pickupDate = new Date(document.getElementById("pickup-date").value);
+            const returnDate = new Date(document.getElementById("return-date").value);
+            const now = new Date();
+            now.setHours(0, 0, 0, 0); // strip time for comparison
+
+            if (pickupDate < now) {
+                e.preventDefault();
+                alert("Pickup date cannot be in the past.");
+                return;
+            }
+
+            if (returnDate <= pickupDate) {
+                e.preventDefault();
+                alert("Return date must be after pickup date.");
+                return;
+            }
+        });
+    </script>
+
 </body>
 
 </html>
